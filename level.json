@@ -1,0 +1,6 @@
+{
+	"name": "Niveau 1",
+  	"backgroundColor": "black",
+  	"size": [3,3],
+  	"grid": [[0,0,0], [1,0,0],[1,1,1]]
+}
