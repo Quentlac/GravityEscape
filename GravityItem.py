@@ -8,6 +8,7 @@ class GravityItem(Item2D):
         self._forceX = 0
         self._forceY = 0
         self._gravity = gravity
+        self._isPlayer = False
         GravityItem.newItem(self)
 
     def invertGravity(self):
@@ -34,7 +35,8 @@ class GravityItem(Item2D):
         for i in GravityItem.getItems():
             # Collision avec un élément (autre bloc par exemple)
             if self.testCollisionWithOtherItem(i):
-                self.addForce((-self._forceX, -self._forceY))
+                if not i._isPlayer:
+                    self.addForce((-self._forceX, -self._forceY))
 
 
         nextX = self._posX + self._forceX

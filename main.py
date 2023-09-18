@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from Item2D import Item2D
 from GravityItem import GravityItem
+from Player import Player
 
 pygame.init()
 
@@ -27,6 +28,8 @@ def shoot(x, y):
 
 inGame = True
 
+player = Player((200, 200))
+
 while inGame:
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -45,6 +48,20 @@ while inGame:
         b.display(window)
         b.move()
 
+    player.display(window)
+    player.move()
+
     pygame.display.update()
+
+    keys = pygame.key.get_pressed()
+
+    if(keys[K_SPACE]):
+        player.jump()
+
+    if(keys[K_RIGHT]):
+        player.goRight()
+
+    if(keys[K_LEFT]):
+        player.goLeft()
 
 pygame.quit()
