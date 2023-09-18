@@ -13,7 +13,7 @@ class Level:
         self.screen = screen
         try:
             # Loading level file
-            with open(os.path.dirname(os.path.realpath(__file__)) + "/" + name + ".json", "r") as f:
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name + ".json", "r") as f:
                 self.json_data = json.load(f)
 
             self.size = self.json_data["size"]

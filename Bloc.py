@@ -2,7 +2,7 @@ import pygame as pg
 
 
 class Bloc:
-    size = 20
+    size = 30
 
     def __init__(self, x, y, material):
         self.pos = pg.Vector2(x, y)

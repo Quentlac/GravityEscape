@@ -8,9 +8,7 @@ class Editor:
         self.level_name = input("Nom du niveau ?")
         self.level = Level(screen, self)
         self.bloc_selector = BlocSelector(screen, self)
-        self.current_material = 0
-
-
+        self.current_material = 1
 
     def update(self, events, dt):
         self.level.draw_grid(events, dt)

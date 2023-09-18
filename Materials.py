@@ -1,8 +1,9 @@
 import pygame as pg
+import os
 
 
 class Materials:
-    directory = "./textures"
+    directory = os.path.dirname(os.path.realpath(__file__)) + "/textures"
     materials = {
         1: pg.image.load(f"{directory}/dirt_snow.png")
     }
@@ -13,3 +14,7 @@ class Materials:
             return Materials.materials[id_img]
         except KeyError:
             return None
+
+    @staticmethod
+    def as_list():
+        return list(Materials.materials.items())
