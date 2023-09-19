@@ -9,5 +9,8 @@ class StaticBloc(GravityItem):
         self.image_pos = (pos[0] - size[0] / 2, pos[1] - size[1] / 2)
         self.material = pg.transform.scale(material, self._size)
 
-    def display(self, canva):
-        canva.blit(self.material, self.image_pos)
+    def display(self, canva, camera):
+        x, y = self.image_pos
+        x = x - camera.camera_x
+        y = y - camera.camera_y
+        canva.blit(self.material, (x, y))

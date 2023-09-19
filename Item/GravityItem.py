@@ -66,10 +66,10 @@ class GravityItem(Item2D):
     def newItem(cls, item: 'GravityItem'):
         cls.items.append(item)
 
-    def display(self, canva):
+    def display(self, canva, camera):
         if (self._gravity > 0):
-            super().display(canva, 'orange')
+            super().display(canva, 'orange', camera)
         elif (self._gravity < 0):
-            super().display(canva, 'cyan')
+            super().display(canva, 'cyan', camera)
         else:
-            super().display(canva, 'white')
+            super().display(canva, 'white', camera)

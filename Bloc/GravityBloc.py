@@ -7,5 +7,5 @@ class GravityBloc(GravityItem):
     def invertGravity(self):
         self._gravity = -self._gravity
 
-    def display(self, canva):
-        super().display(canva)
+    def display(self, canva, camera):
+        super().display(canva, camera)

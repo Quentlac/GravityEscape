@@ -52,9 +52,9 @@ class Level:
 
         self.load_grid()
 
-        self.player = Player((200, 200))
+        self.player = Player((500, 200))
 
-        self.camera = Camera(self.grid_width, self.grid_height, self.x_center, self.y_center)
+        self.camera = Camera(self.grid_width, self.grid_height, self.x_center, self.y_center, self.screen)
 
     def load_grid(self):
         # Draw grid
@@ -72,7 +72,7 @@ class Level:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
                         elif material[1] == GravityBloc:
                             bloc = GravityBloc(pos)
-                            self.list_gravity_bloc.append((bloc))
+                            self.list_gravity_bloc.append(bloc)
                         else:
                             bloc = None
                     if bloc:
@@ -86,14 +86,15 @@ class Level:
                 x += self.background.get_size()[0]
 
         for b in self.list_gravity_bloc:
-            b.display(self.screen)
             b.move(dt)
 
         for elem in self.level_elements:
-            elem.display(self.screen)
+            elem.display(self.screen, self.camera)
 
         self.player.display(self.screen)
         self.player.move(dt)
+
+        self.camera.update(self.player)
 
         keys = pg.key.get_pressed()
 
