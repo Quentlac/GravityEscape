@@ -1,17 +1,19 @@
 import os
 import json
 import pygame as pg
-from Bloc import Bloc
+from Bloc.StaticBloc import StaticBloc
 from view.Materials import Materials
 
 
 class Level:
+    bloc_size = 50
 
     def __init__(self, screen: pg.Surface, editor):
         self.editor = editor
         # Loading level file
         self.screen = screen
-        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json", "r") as f:
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json",
+                  "r") as f:
             self.json_data = json.load(f)
 
         self.size = self.json_data["size"]
@@ -29,8 +31,8 @@ class Level:
                 column.extend([0] * (self.size[1] - len(column)))
 
         # Get center of the screen
-        self.grid_width = self.size[1] * Bloc.size
-        self.grid_height = self.size[0] * Bloc.size
+        self.grid_width = self.size[1] * self.bloc_size
+        self.grid_height = self.size[0] * self.bloc_size
         self.x_center = (screen.get_size()[0] - self.grid_width) // 2
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
 
@@ -60,15 +62,17 @@ class Level:
         # Draw grid
         for x in range(self.size[0]):
             for y in range(self.size[1]):
-                rect = pg.Rect(self.camera_pos.x + self.x_center + y * Bloc.size,
-                               self.camera_pos.y + self.y_center + x * Bloc.size, Bloc.size,
-                               Bloc.size)
+                rect = pg.Rect(self.camera_pos.x + self.x_center + y * self.bloc_size,
+                               self.camera_pos.y + self.y_center + x * self.bloc_size, self.bloc_size,
+                               self.bloc_size)
                 if self.grid[x][y] != 0:
                     material = Materials.get_material(self.grid[x][y])
-
-                    bloc = Bloc(self.camera_pos.x + self.x_center + y * Bloc.size,
-                                self.camera_pos.y + self.y_center + x * Bloc.size, material)
-                    bloc.update(self.screen)
+                    if type(material) == tuple:
+                        material = material[0]
+                    bloc = StaticBloc((self.camera_pos.x + self.x_center + y * self.bloc_size,
+                                       self.camera_pos.y + self.y_center + x * self.bloc_size),
+                                      (self.bloc_size, self.bloc_size), material)
+                    bloc.display(self.screen)
 
                 if click_event and rect.collidepoint(click_event.pos):
                     if click_event.button == 3:
@@ -82,6 +86,7 @@ class Level:
         pg.draw.rect(self.screen, (200, 200, 200), rect, 1)
 
     def save(self):
-        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json", "w") as f:
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json",
+                  "w") as f:
             print("save")
             f.write(json.dumps(self.json_data))

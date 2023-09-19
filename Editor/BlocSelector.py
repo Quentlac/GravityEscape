@@ -1,6 +1,6 @@
 import pygame as pg
 
-from Bloc import Bloc
+from Bloc.StaticBloc import StaticBloc
 from view.Materials import Materials
 
 
@@ -22,14 +22,16 @@ class BlocSelector:
                 click_event = event
 
         for x, material in enumerate(Materials.as_list()):
-
+            material = material[1]
             # Change y position if the bloc is the selected one
             pos_y = 8 if x+1 == self.editor.current_material else 0
             # Get rectangle
             rect = pg.Rect(self.x_center + x * self.cell_size, pos_y, self.cell_size, self.cell_size)
 
-            bloc = Bloc(self.x_center + x * self.cell_size, pos_y, material[1])
-            bloc.update(self.screen)
+            if type(material) == tuple:
+                material = material[0]
+            bloc = StaticBloc((self.x_center + x * self.cell_size, pos_y), (self.cell_size, self.cell_size), material)
+            bloc.display(self.screen)
             # If the click is one of the element, update selected element
             if click_event and rect.collidepoint(click_event.pos):
                 self.editor.current_material = x + 1
