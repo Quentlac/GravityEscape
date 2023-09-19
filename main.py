@@ -46,6 +46,7 @@ while inGame:
             shoot(posX, posY)
 
     window.fill((0, 0, 0))
+    pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
     floor.display(window)
     roof.display(window)
