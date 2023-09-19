@@ -3,6 +3,7 @@ from pygame.locals import *
 from Item2D import Item2D
 from GravityItem import GravityItem
 from GravityBloc import GravityBloc
+from StaticBloc import StaticBloc
 from Player import Player
 
 pygame.init()
@@ -33,6 +34,7 @@ def shoot(x, y):
 inGame = True
 
 player = Player((200, 200))
+static = StaticBloc((500 , 400))
 
 while inGame:
     for event in pygame.event.get():
@@ -47,6 +49,8 @@ while inGame:
 
     floor.display(window)
     roof.display(window)
+
+    static.display(window)
 
     for b in list_bloc:
         b.display(window)
