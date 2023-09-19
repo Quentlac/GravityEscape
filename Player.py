@@ -1,7 +1,10 @@
 from Item.GravityItem import GravityItem
 import pygame, os
 
+
 class Player(GravityItem):
+    size = (25, 45)
+    img_size = (50, 50)
     # Répertoire contenant les images du personnage
     sprite_directory = "Sprites/walk"
     sprites_jump = "Sprites/jump"
@@ -12,26 +15,22 @@ class Player(GravityItem):
     character_images_jump = []
     character_images_walk_back = []
 
-    # Parcours les fichiers dans le répertoire "walk"
-    for filename in os.listdir(sprite_directory):
-        if filename.endswith(".png"):
-            image = pygame.image.load(os.path.join(sprite_directory, filename))
-            character_images_walk.append(image)
+    @staticmethod
+    def load_image(array, img_dir, size):
+        for filename in os.listdir(img_dir):
+            if filename.endswith(".png"):
+                image = pygame.image.load(os.path.join(img_dir, filename))
+                image = pygame.transform.scale(image, size)
+                array.append(image)
 
-    # Parcours les fichiers dans le répertoire "jump"
-    for filename in os.listdir(sprites_jump):
-        if filename.endswith(".png"):
-            image = pygame.image.load(os.path.join(sprites_jump, filename))
-            character_images_jump.append(image)
+    load_image(character_images_walk, sprite_directory, img_size)
+    load_image(character_images_jump, sprites_jump, img_size)
+    load_image(character_images_walk_back, sprites_walk_back, img_size)
 
-    # Parcours les fichiers dans le répertoire "walk_back"
-    for filename in os.listdir(sprites_walk_back):
-        if filename.endswith(".png"):
-            image = pygame.image.load(os.path.join(sprites_walk_back, filename))
-            character_images_walk_back.append(image)
+
 
     def __init__(self, pos):
-        super().__init__(pos, (20, 20), 0.02)
+        super().__init__(pos, self.size, 0.02)
         self.current_frame = 0
         self._isPlayer = True
         self._isJump = False
@@ -39,16 +38,22 @@ class Player(GravityItem):
         self.animation_delay = 10  # Délai entre les changements d'image
         self.animation_timer = 0  # Compteur pour contrôler l'animation
         self.current_animation = "idle"  # Animation par défaut
-        self.idle_image = pygame.image.load(os.path.join("Sprites/walk", "walk1.png"))
+        self.idle_image = pygame.transform.scale(pygame.image.load(os.path.join("Sprites/walk", "walk1.png")), self.img_size)
+        self.idle_image_back = pygame.transform.scale(pygame.image.load(os.path.join("Sprites/walk_back", "walk_back1"
+                                                                                                          ".png")),
+                                                      self.img_size)
+        self.last_direction_forward = True
 
     def update_animation(self):
         # Choisissez l'animation appropriée en fonction de la situation
         if self.is_moving and self.is_front:
             self.current_animation = "walk"
             character_images = self.character_images_walk
+            self.last_direction_forward = True
             self.stopMoving()
         elif self.is_moving and self.is_back:
             self.current_animation = "walk_back"
+            self.last_direction_forward = False
             character_images = self.character_images_walk_back
             self.stopMoving()
         elif self._isJump:
@@ -66,12 +71,23 @@ class Player(GravityItem):
                 self.animation_timer = 0
 
     def display(self, canva):
+        # Remove comment to see hitbox
+        #pygame.draw.rect(canva, 'red', pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
+        pos = (self._posX - self.idle_image.get_size()[0] / 2, self._posY - self.idle_image.get_size()[1] / 2)
         if self.current_animation == "idle":
-            canva.blit(self.idle_image, (self._posX, self._posY))
+            if self.last_direction_forward:
+                canva.blit(self.idle_image, pos)
+            else:
+                canva.blit(self.idle_image_back, pos)
         elif self.current_animation in ["walk", "walk_back", "jump"]:
-            character_images = getattr(self, f"character_images_{self.current_animation}")
-            canva.blit(character_images[self.current_frame], (self._posX, self._posY))
+            try:
+                character_images = getattr(self, f"character_images_{self.current_animation}")
+                canva.blit(character_images[self.current_frame], pos)
+            except IndexError as e:
+                print("Frame error: ", e)
+                canva.blit(self.idle_image, pos)
+
 
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
         self.update_animation()
