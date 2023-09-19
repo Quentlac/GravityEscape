@@ -4,6 +4,7 @@ from Item.Item2D import Item2D
 from Bloc.GravityBloc import *
 from Bloc.StaticBloc import *
 from Player import Player
+from Level import Level
 
 pygame.init()
 
@@ -17,6 +18,8 @@ floor = GravityItem((500, 700), (1000, 100))
 roof = GravityItem((500, 0), (1000, 100))
 
 list_bloc = []
+
+level = Level("level", window)
 
 def shoot(x, y):
 
@@ -50,6 +53,8 @@ while inGame:
     roof.display(window)
 
     static.display(window)
+
+    level.update()
 
     for b in list_bloc:
         b.display(window)
