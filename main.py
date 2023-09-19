@@ -9,6 +9,9 @@ pygame.init()
 window = pygame.display.set_mode((1000, 700))
 pygame.display.set_caption("Gravity Escape")
 
+clock = pygame.time.Clock()
+dt = 0
+
 floor = GravityItem((500, 700), (1000, 100), 0)
 roof = GravityItem((500, 0), (1000, 100), 0)
 
@@ -37,7 +40,7 @@ while inGame:
         if event.type == MOUSEBUTTONDOWN:
             posX, posY = pygame.mouse.get_pos()
             if not shoot(posX, posY):
-                list_bloc.append(GravityItem((posX, posY), (50, 50), 0.0002))
+                list_bloc.append(GravityItem((posX, posY), (50, 50), 0.002))
 
     window.fill((0, 0, 0))
 
@@ -46,10 +49,10 @@ while inGame:
 
     for b in list_bloc:
         b.display(window)
-        b.move()
+        b.move(dt)
 
     player.display(window)
-    player.move()
+    player.move(dt)
 
     pygame.display.update()
 
@@ -59,9 +62,11 @@ while inGame:
         player.jump()
 
     if(keys[K_RIGHT]):
-        player.goRight()
+        player.goRight(dt)
 
     if(keys[K_LEFT]):
-        player.goLeft()
+        player.goLeft(dt)
+
+    dt = clock.tick(60)
 
 pygame.quit()

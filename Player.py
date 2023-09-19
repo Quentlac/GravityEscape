@@ -3,7 +3,7 @@ import pygame
 class Player(GravityItem):
 
     def __init__(self, pos):
-        super().__init__(pos, (20, 20), 0.0002)
+        super().__init__(pos, (20, 20), 0.02)
         self._isPlayer = True
         self._isJump = False
 
@@ -13,10 +13,10 @@ class Player(GravityItem):
     def jump(self):
         if(not self._isJump):
             self._isJump = True
-            self.addForce((0, -0.2))
+            self.addForce((0, -0.5))
 
-    def goRight(self):
-        nextX = self.getPosX() + 0.1
+    def goRight(self, dt):
+        nextX = self.getPosX() + 0.15 *dt
         nextY = self.getPosY()
 
         self.setPosition(nextX, nextY)
@@ -27,10 +27,10 @@ class Player(GravityItem):
                 col = True
 
         if col:
-            self.setPosition(nextX - 0.1, nextY)
+            self.setPosition(nextX - 0.15 * dt, nextY)
 
-    def goLeft(self):
-        nextX = self.getPosX() - 0.1
+    def goLeft(self, dt):
+        nextX = self.getPosX() - 0.15 * dt
         nextY = self.getPosY()
 
         self.setPosition(nextX, nextY)
@@ -41,19 +41,6 @@ class Player(GravityItem):
                 col = True
 
         if col:
-            self.setPosition(nextX + 0.1, nextY)
+            self.setPosition(nextX + 0.15*dt, nextY)
 
-    def move(self):
-        self.addForce((0, self._gravity))
 
-        # On calcule toute les collisions et on applique les forces nécessaires
-        for i in GravityItem.getItems():
-            # Collision avec un élément (autre bloc par exemple)
-            if self.testCollisionWithOtherItem(i):
-                self.setForce((i._forceX, i._forceY))
-                self._isJump = False
-
-        nextX = self._posX + self._forceX
-        nextY = self._posY + self._forceY
-
-        self.setPosition(nextX, nextY)
