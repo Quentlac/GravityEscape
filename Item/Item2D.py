@@ -1,12 +1,23 @@
 import pygame.draw
-
-
 class Item2D:
+
+    items = []
+
     def __init__(self, pos, size):
         self._posX = pos[0]
         self._posY = pos[1]
         self._width = size[0]
         self._height = size[1]
+
+        Item2D.newItem(self)
+
+    @classmethod
+    def getItems(cls):
+        return cls.items
+
+    @classmethod
+    def newItem(cls, item: 'Item2D'):
+        cls.items.append(item)
 
     def setPosition(self, posX, posY):
         self._posX = posX

@@ -1,7 +1,6 @@
 from Item.Item2D import Item2D
 class GravityItem(Item2D):
 
-    items = []
     def __init__(self, pos, size, gravity = 0, weight = 1):
         super().__init__(pos, size)
 
@@ -10,7 +9,6 @@ class GravityItem(Item2D):
         self._gravity = gravity
         self._isPlayer = False
         self._weight = weight
-        GravityItem.newItem(self)
 
     def setForce(self, force):
         self._forceX = force[0]
@@ -45,14 +43,6 @@ class GravityItem(Item2D):
         nextY = self._posY + dy
 
         self.setPosition(nextX, nextY)
-
-    @classmethod
-    def getItems(cls):
-        return cls.items
-
-    @classmethod
-    def newItem(cls, item : 'GravityItem'):
-        cls.items.append(item)
 
     def display(self, canva):
         if(self._gravity > 0):
