@@ -19,13 +19,6 @@ class GravityItem(Item2D):
         self._forceX += force[0]
         self._forceY += force[1]
 
-    def testCollisionWithOtherItem(self, o : 'Item2D', dx = 0, dy = 0):
-        if(self == o):
-            return False
-
-        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
-
-
     def move(self, dt):
 
         self.addForce((0, self._gravity))

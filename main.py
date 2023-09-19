@@ -19,6 +19,10 @@ roof = GravityItem((500, 0), (1000, 100))
 
 list_bloc = []
 
+list_bloc.append(GravityBloc((500, 100)))
+list_bloc.append(GravityBloc((600, 100)))
+
+
 bullets = [] # liste des bullets de gravité
 
 def shoot(x, y):

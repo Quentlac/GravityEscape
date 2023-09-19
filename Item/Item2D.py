@@ -35,3 +35,9 @@ class Item2D:
     def move(self, dX, dY):
         self._posX += dX
         self._posY += dY
+
+    def testCollisionWithOtherItem(self, o : 'Item2D', dx = 0, dy = 0):
+        if(self == o):
+            return False
+
+        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
