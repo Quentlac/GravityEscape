@@ -9,9 +9,11 @@ class Player(GravityItem):
         self._isPlayer = True
         self._isJump = False
 
-    def display(self, canva):
+    def display(self, canva, camera):
+        offset_x, offset_y = camera.getOffset()
+
         pygame.draw.rect(canva, 'red',
-                         pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width,
+                         pygame.Rect(offset_x + self._posX - self._width / 2, offset_y + self._posY - self._height / 2, self._width,
                                      self._height))
 
     def jump(self):

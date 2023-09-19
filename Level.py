@@ -9,6 +9,7 @@ from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
 from Bloc.GravityBloc import GravityBloc
+from Camera import *
 import pygame as pg
 
 
@@ -16,6 +17,7 @@ class Level:
     default_size = (50, 50)
     list_gravity_bloc = []
     bullets = []
+
     def __init__(self, name, screen):
         self.level_elements = []
         self.level_name = name
@@ -55,8 +57,8 @@ class Level:
         self.load_grid()
 
         self.player = Player((0, 0))
+        self.camera = Camera(self.player)
         self.respawn()
-        self.camera = Camera(self.grid_width, self.grid_height, self.x_center, self.y_center)
 
     def load_grid(self):
         # Draw grid
@@ -101,23 +103,25 @@ class Level:
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN:
                 posX, posY = pg.mouse.get_pos()
-                self.shoot(posX, posY)
+                offset_x, offset_y = self.camera.getOffset()
+                self.shoot(-offset_x + posX, -offset_y + posY)
 
         for b in self.list_gravity_bloc:
             b.move(dt)
 
         for elem in self.level_elements:
-            elem.display(self.screen)
+            elem.display(self.screen, self.camera)
 
         for b in self.bullets:
-            b.display(self.screen)
+            b.display(self.screen, self.camera)
             b.move(dt)
 
             if not b.active:
                 self.bullets.remove(b)
 
-        self.player.display(self.screen)
+        self.player.display(self.screen, self.camera)
         self.player.move(dt)
+        self.camera.move()
         if self.player.is_dead():
             self.respawn()
 
