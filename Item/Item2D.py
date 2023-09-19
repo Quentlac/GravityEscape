@@ -2,9 +2,12 @@ import pygame.draw
 
 
 class Item2D:
+
     def __init__(self, pos, size):
+        self._pos = pos
         self._posX = pos[0]
         self._posY = pos[1]
+        self._size = size
         self._width = size[0]
         self._height = size[1]
 

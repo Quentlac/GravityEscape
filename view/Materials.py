@@ -1,6 +1,6 @@
 import pygame as pg
 import os
-
+from Bloc.NoHitBoxBloc import NoHitBoxBloc
 
 class Materials:
     directory = os.path.dirname(os.path.realpath(__file__)) + "/blocks"
@@ -19,13 +19,13 @@ class Materials:
         12: pg.image.load(f"{directory}/block-rebound.png"),
         13: pg.image.load(f"{directory}/block-red-wire.png"),
         14: pg.image.load(f"{directory}/block-red-wire-hori.png"),
-        15: pg.image.load(f"{directory}/block-redflower.png"),
+        15: (pg.image.load(f"{directory}/block-redflower.png"), NoHitBoxBloc),
         16: pg.image.load(f"{directory}/block-sand.png"),
         17: pg.image.load(f"{directory}/block-snow.png"),
         18: pg.image.load(f"{directory}/block-stone.png"),
         19: pg.image.load(f"{directory}/block-stonesnow.png"),
         20: pg.image.load(f"{directory}/block-water.png"),
-        21: pg.image.load(f"{directory}/block-yellowflower.png"),
+        21: (pg.image.load(f"{directory}/block-yellowflower.png"), NoHitBoxBloc),
 
 
     }

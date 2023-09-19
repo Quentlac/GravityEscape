@@ -1,8 +1,10 @@
 from Item.Item2D import Item2D
-class GravityItem(Item2D):
 
+
+class GravityItem(Item2D):
     items = []
-    def __init__(self, pos, size, gravity = 0, weight = 1):
+
+    def __init__(self, pos, size, gravity=0, weight=1, is_solid=True):
         super().__init__(pos, size)
 
         self._forceX = 0
@@ -10,21 +12,23 @@ class GravityItem(Item2D):
         self._gravity = gravity
         self._isPlayer = False
         self._weight = weight
-        GravityItem.newItem(self)
+        if is_solid:
+            GravityItem.newItem(self)
 
     def setForce(self, force):
         self._forceX = force[0]
         self._forceY = force[1]
+
     def addForce(self, force):
         self._forceX += force[0]
         self._forceY += force[1]
 
-    def testCollisionWithOtherItem(self, o : 'Item2D', dx = 0, dy = 0):
-        if(self == o):
+    def testCollisionWithOtherItem(self, o: 'Item2D', dx=0, dy=0):
+        if (self == o):
             return False
 
-        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
-
+        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(
+            self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
 
     def move(self, dt):
 
@@ -42,7 +46,7 @@ class GravityItem(Item2D):
                     self._isJump = False
                     self.addForce((-self._forceX + i._forceX, -self._forceY + i._forceY))
 
-                elif(not i._isPlayer):
+                elif (not i._isPlayer):
                     self.addForce((-self._forceX + i._forceX * 0.5, -self._forceY + i._forceY * 0.5))
 
         dx = self._forceX * dt
@@ -58,14 +62,13 @@ class GravityItem(Item2D):
         return cls.items
 
     @classmethod
-    def newItem(cls, item : 'GravityItem'):
+    def newItem(cls, item: 'GravityItem'):
         cls.items.append(item)
 
     def display(self, canva):
-        if(self._gravity > 0):
+        if (self._gravity > 0):
             super().display(canva, 'orange')
-        elif(self._gravity < 0):
+        elif (self._gravity < 0):
             super().display(canva, 'cyan')
         else:
             super().display(canva, 'white')
-

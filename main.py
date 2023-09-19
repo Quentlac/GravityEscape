@@ -36,7 +36,6 @@ def shoot(x, y):
 inGame = True
 
 player = Player((200, 200))
-static = StaticBloc((500 , 400))
 
 while inGame:
     for event in pygame.event.get():
@@ -51,8 +50,6 @@ while inGame:
 
     floor.display(window)
     roof.display(window)
-
-    static.display(window)
 
     level.update()
 
@@ -70,10 +67,10 @@ while inGame:
     if(keys[K_SPACE]):
         player.jump()
 
-    if(keys[K_RIGHT]):
+    if(keys[K_d] or keys[K_RIGHT]):
         player.goRight(dt)
 
-    if(keys[K_LEFT]):
+    if(keys[K_q] or keys[K_LEFT]):
         player.goLeft(dt)
 
     dt = clock.tick(60)
