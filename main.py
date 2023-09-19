@@ -15,9 +15,6 @@ pygame.display.set_caption("Gravity Escape")
 clock = pygame.time.Clock()
 dt = 0
 
-floor = GravityItem((500, 700), (1000, 100))
-roof = GravityItem((500, 0), (1000, 100))
-
 list_bloc = []
 
 level = Level("level", window)
