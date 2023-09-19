@@ -1,18 +1,22 @@
 import json
 import os
 
+from Bloc.NoKillBloc import NoKillBloc
 from Camera import Camera
+from Item.BulletItem import BulletItem
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
 from Bloc.GravityBloc import GravityBloc
+from Camera import *
 import pygame as pg
 
 
 class Level:
     default_size = (50, 50)
     list_gravity_bloc = []
+    bullets = []
 
     def __init__(self, name, screen):
         self.level_elements = []
@@ -52,9 +56,9 @@ class Level:
 
         self.load_grid()
 
-        self.player = Player((500, 200))
-
-        self.camera = Camera(self.grid_width, self.grid_height, self.x_center, self.y_center, self.screen)
+        self.player = Player((0, 0))
+        self.camera = Camera(self.player)
+        self.respawn()
 
     def load_grid(self):
         # Draw grid
@@ -65,11 +69,12 @@ class Level:
                     pos = (self.x_center + y * self.default_size[0], self.y_center + x * self.default_size[1])
                     if type(material) != tuple:
                         bloc = StaticBloc(pos, self.default_size, material)
-                        self.level_elements.append(bloc)
                     else:
 
                         if material[1] == NoHitBoxBloc:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
+                        elif material[1] == NoKillBloc:
+                            bloc = NoKillBloc(pos, self.default_size, material[0])
                         elif material[1] == GravityBloc:
                             bloc = GravityBloc(pos)
                             self.list_gravity_bloc.append(bloc)
@@ -78,12 +83,28 @@ class Level:
                     if bloc:
                         self.level_elements.append(bloc)
 
-    def update(self, dt):
+    def shoot(self, x, y):
+        dx = x - self.player.getPosX()
+        dy = y - self.player.getPosY()
+
+        visee = pg.Vector2(dx, dy)
+        visee = visee.normalize()
+
+        self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
+
+    def respawn(self):
+        self.player.setPosition(200,200)
+    def update(self, dt, events):
         if self.background:
             x = 0
             while x < self.screen.get_size()[0]:
                 self.screen.blit(self.background, (x, 0))
                 x += self.background.get_size()[0]
+        for event in events:
+            if event.type == pg.MOUSEBUTTONDOWN:
+                posX, posY = pg.mouse.get_pos()
+                offset_x, offset_y = self.camera.getOffset()
+                self.shoot(-offset_x + posX, -offset_y + posY)
 
         for b in self.list_gravity_bloc:
             b.move(dt)
@@ -91,10 +112,19 @@ class Level:
         for elem in self.level_elements:
             elem.display(self.screen, self.camera)
 
-        self.player.display(self.screen)
-        self.player.move(dt)
+        for b in self.bullets:
+            b.display(self.screen, self.camera)
+            b.move(dt)
 
-        self.camera.update(self.player)
+            if not b.active:
+                self.bullets.remove(b)
+
+        self.player.display(self.screen, self.camera)
+        self.player.move(dt)
+        self.camera.move(dt)
+        if self.player.is_dead():
+            self.respawn()
+
 
         keys = pg.key.get_pressed()
 
@@ -106,3 +136,4 @@ class Level:
             self.player.goLeft(dt)
 
         pg.draw.rect(self.screen, (0, 0, 0), (self.x_center, self.y_center, self.grid_width, self.grid_height), 4)
+

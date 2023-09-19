@@ -1,6 +1,10 @@
 import pygame
 from pygame.locals import *
+from Item.Item2D import Item2D
 from Bloc.GravityBloc import *
+from Bloc.StaticBloc import *
+from Item.BulletItem import *
+from Player import Player
 from Level import Level
 
 pygame.init()
@@ -11,7 +15,11 @@ pygame.display.set_caption("Gravity Escape")
 clock = pygame.time.Clock()
 dt = 0
 
+list_bloc = []
+
 level = Level("level", window)
+
+bullets = []
 
 
 
@@ -24,8 +32,9 @@ while inGame:
             inGame = False
 
     window.fill((0, 0, 0))
+    pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
-    level.update(dt)
+    level.update(dt, events)
 
     pygame.display.update()
 
