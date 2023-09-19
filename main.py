@@ -51,7 +51,7 @@ while inGame:
     floor.display(window)
     roof.display(window)
 
-    level.update()
+    level.update(dt)
 
     for b in list_bloc:
         b.display(window)

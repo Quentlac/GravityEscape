@@ -1,6 +1,7 @@
 import pygame as pg
 import os
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
+from Bloc.GravityBloc import GravityBloc
 
 class Materials:
     directory = os.path.dirname(os.path.realpath(__file__)) + "/blocks"
@@ -26,6 +27,7 @@ class Materials:
         19: pg.image.load(f"{directory}/block-stonesnow.png"),
         20: pg.image.load(f"{directory}/block-water.png"),
         21: (pg.image.load(f"{directory}/block-yellowflower.png"), NoHitBoxBloc),
+        22: (pg.image.load(f"{directory}/block-gravity.png"), GravityBloc),
 
 
     }

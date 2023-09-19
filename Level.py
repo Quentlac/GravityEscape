@@ -4,11 +4,13 @@ import os
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
+from Bloc.GravityBloc import GravityBloc
 import pygame as pg
 
 
 class Level:
     default_size = (50, 50)
+    list_gravity_bloc = []
     def __init__(self, name, screen):
         self.level_elements = []
         self.level_name = name
@@ -57,20 +59,28 @@ class Level:
                         bloc = StaticBloc(pos, self.default_size, material)
                         self.level_elements.append(bloc)
                     else:
-                        if type(material[1]) == type(NoHitBoxBloc):
+
+                        if material[1] == NoHitBoxBloc:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
+                        elif material[1] == GravityBloc:
+                            bloc = GravityBloc(pos)
+                            self.list_gravity_bloc.append((bloc))
                         else:
                             bloc = None
                     if bloc:
                         self.level_elements.append(bloc)
 
 
-    def update(self):
+    def update(self, dt):
         if self.background:
             x = 0
             while x < self.screen.get_size()[0]:
                 self.screen.blit(self.background, (x, 0))
                 x += self.background.get_size()[0]
+
+        for b in self.list_gravity_bloc:
+            b.display(self.screen)
+            b.move(dt)
 
         for elem in self.level_elements:
             elem.display(self.screen)
