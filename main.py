@@ -35,8 +35,6 @@ def shoot(x, y):
 
 inGame = True
 
-player = Player((200, 200))
-
 while inGame:
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -48,14 +46,7 @@ while inGame:
     window.fill((0, 0, 0))
     pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
-    floor.display(window)
-    roof.display(window)
-
     level.update(dt)
-
-    for b in list_bloc:
-        b.display(window)
-        b.move(dt)
 
     for b in bullets:
         b.display(window)
@@ -64,21 +55,9 @@ while inGame:
         if not b.active:
             bullets.remove(b)
 
-    player.display(window)
-    player.move(dt)
 
     pygame.display.update()
 
-    keys = pygame.key.get_pressed()
-
-    if(keys[K_SPACE]):
-        player.jump()
-
-    if(keys[K_d] or keys[K_RIGHT]):
-        player.goRight(dt)
-
-    if(keys[K_q] or keys[K_LEFT]):
-        player.goLeft(dt)
 
     dt = clock.tick(60)
 
