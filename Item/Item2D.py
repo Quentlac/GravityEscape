@@ -30,6 +30,13 @@ class Item2D:
     def testCollision(self, posX, posY):
         return abs(self._posX - posX) < self._width / 2 and abs(self._posY - posY) < self._height / 2
 
+    def testCollisionWithOtherItem(self, o: 'Item2D', dx=0, dy=0):
+        if (self == o):
+            return False
+
+        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(
+            self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
+
     def display(self, canva, color):
         pygame.draw.rect(canva, 'black', pygame.Rect(self._posX - self._width/2, self._posY - self._height / 2, self._width, self._height))
         pygame.draw.rect(canva, color, pygame.Rect(self._posX - (self._width-5)/2, self._posY - (self._height-5)/2, self._width-5, self._height-5))
