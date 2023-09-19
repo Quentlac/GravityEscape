@@ -121,7 +121,7 @@ class Level:
 
         self.player.display(self.screen, self.camera)
         self.player.move(dt)
-        self.camera.move()
+        self.camera.move(dt)
         if self.player.is_dead():
             self.respawn()
 
