@@ -37,9 +37,11 @@ class Item2D:
         return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(
             self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
 
-    def display(self, canva, color):
-        pygame.draw.rect(canva, 'black', pygame.Rect(self._posX - self._width/2, self._posY - self._height / 2, self._width, self._height))
-        pygame.draw.rect(canva, color, pygame.Rect(self._posX - (self._width-5)/2, self._posY - (self._height-5)/2, self._width-5, self._height-5))
+    def display(self, canva, camera, color):
+        offset_x, offset_y = camera.getOffset()
+
+        pygame.draw.rect(canva, 'black', pygame.Rect(offset_x + self._posX - self._width/2, offset_y + self._posY - self._height / 2, self._width, self._height))
+        pygame.draw.rect(canva, color, pygame.Rect(offset_x+ self._posX - (self._width-5)/2, offset_y + self._posY - (self._height-5)/2, self._width-5, self._height-5))
 
 
     def move(self, dX, dY):

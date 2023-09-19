@@ -70,11 +70,12 @@ class Player(GravityItem):
                 self.current_frame = (self.current_frame + 1) % len(character_images)
                 self.animation_timer = 0
 
-    def display(self, canva):
+    def display(self, canva, camera):
         # Remove comment to see hitbox
         #pygame.draw.rect(canva, 'red', pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
-        pos = (self._posX - self.idle_image.get_size()[0] / 2, self._posY - self.idle_image.get_size()[1] / 2)
+        offset_x, offset_y = camera.getOffset()
+        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 2)
         if self.current_animation == "idle":
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
@@ -87,7 +88,6 @@ class Player(GravityItem):
             except IndexError as e:
                 print("Frame error: ", e)
                 canva.blit(self.idle_image, pos)
-
 
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
         self.update_animation()
