@@ -1,6 +1,7 @@
 import json
 import os
 
+from Bloc.NoKillBloc import NoKillBloc
 from Camera import Camera
 from Item.BulletItem import BulletItem
 from Player import Player
@@ -66,14 +67,15 @@ class Level:
                     pos = (self.x_center + y * self.default_size[0], self.y_center + x * self.default_size[1])
                     if type(material) != tuple:
                         bloc = StaticBloc(pos, self.default_size, material)
-                        self.level_elements.append(bloc)
                     else:
 
                         if material[1] == NoHitBoxBloc:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
+                        elif material[1] == NoKillBloc:
+                            bloc = NoKillBloc(pos, self.default_size, material[0])
                         elif material[1] == GravityBloc:
                             bloc = GravityBloc(pos)
-                            self.list_gravity_bloc.append((bloc))
+                            self.list_gravity_bloc.append(bloc)
                         else:
                             bloc = None
                     if bloc:

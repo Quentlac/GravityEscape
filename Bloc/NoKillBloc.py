@@ -1,9 +1,8 @@
 from Bloc.StaticBloc import StaticBloc
-from Item.GravityItem import GravityItem
 from Player import Player
 
 
-class NoKillBloc(GravityItem):
+class NoKillBloc(StaticBloc):
     def __init__(self, pos, size, material):
         super().__init__(pos, size, material)
 
@@ -11,4 +10,4 @@ class NoKillBloc(GravityItem):
         if isinstance(o, Player):
             return False
         else:
-            return super().testCollisionWithOtherItem(o, o, dx)
+            return super().testCollisionWithOtherItem(o, dx, dy)
