@@ -1,13 +1,11 @@
-import os
-import json
 import pygame as pg
 
 from Bloc import Bloc
-from Materials import Materials
+from view.Materials import Materials
 
 
 class BlocSelector:
-    cell_size = 100
+    cell_size = 30
 
     def __init__(self, screen, editor):
         self.editor = editor
@@ -26,7 +24,7 @@ class BlocSelector:
         for x, material in enumerate(Materials.as_list()):
 
             # Change y position if the bloc is the selected one
-            pos_y = 8 if x == self.editor.current_material else 0
+            pos_y = 8 if x+1 == self.editor.current_material else 0
             # Get rectangle
             rect = pg.Rect(self.x_center + x * self.cell_size, pos_y, self.cell_size, self.cell_size)
 

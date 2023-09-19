@@ -2,7 +2,7 @@ import os
 import json
 import pygame as pg
 from Bloc import Bloc
-from Materials import Materials
+from view.Materials import Materials
 
 
 class Level:

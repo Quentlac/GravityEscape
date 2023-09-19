@@ -1,8 +1,9 @@
 import json
 import os
 
-from Materials import Materials
+from view.Materials import Materials
 from Bloc import Bloc
+import pygame as pg
 
 
 class Level:
@@ -18,6 +19,18 @@ class Level:
 
             self.size = self.json_data["size"]
             self.grid = self.json_data["grid"]
+
+            self.background = None
+            if self.json_data["background"]:
+                try:
+                    bg = pg.image.load(f"{os.path.dirname(os.path.realpath(__file__))}/view/backgrounds/{self.json_data['background']}")
+                    new_width = (bg.get_size()[0] * screen.get_size()[1]) // bg.get_size()[0]
+                    bg = pg.transform.scale(bg, (new_width, screen.get_size()[1]))
+
+                    self.background = bg
+                except FileNotFoundError as e:
+                    print("Background not found")
+                    self.background = None
 
         except json.JSONDecodeError:
             print("Error decoding level json file")
@@ -42,5 +55,13 @@ class Level:
                     self.level_elements.append(bloc)
 
     def update(self):
+        if self.background:
+            x = 0
+            while x < self.screen.get_size()[0]:
+                self.screen.blit(self.background, (x, 0))
+                x += self.background.get_size()[0]
+
         for elem in self.level_elements:
             elem.update(self.screen)
+
+        pg.draw.rect(self.screen, (0,0,0), (self.x_center, self.y_center, self.grid_width, self.grid_height), 4)
