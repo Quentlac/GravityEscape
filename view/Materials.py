@@ -29,7 +29,7 @@ class Materials:
         21: (pg.image.load(f"{directory}/block-yellowflower.png"), NoHitBoxBloc),
         22: (pg.image.load(f"{directory}/block-gravity.png"), GravityBloc),
         23: (pg.image.load(f"{directory}/block-gravity-blue.png"), GravityBloc),
-        24: (pg.image.load(f"{directory}/block-gravity-empty.png"), NoKillBloc),
+        24: (pg.image.load(f"{directory}/block-through-transparency.png"), NoKillBloc),
 
 
     }

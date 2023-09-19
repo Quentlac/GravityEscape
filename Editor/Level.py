@@ -2,6 +2,7 @@ import os
 import json
 import pygame as pg
 from Bloc.StaticBloc import StaticBloc
+from Camera import Camera
 from view.Materials import Materials
 
 
@@ -36,7 +37,14 @@ class Level:
         self.x_center = (screen.get_size()[0] - self.grid_width) // 2
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
 
+        self.half_bloc_size = self.bloc_size / 2
+
         self.camera_pos = pg.Vector2()
+
+        # Needed for render block but useless here, attribute change make it invisible in calcul
+        self.camera = Camera(None)
+        self.camera.camera_width = 0
+        self.camera.camera_height = 0
 
     def draw_grid(self, events, dt):
         # Retreive click event if one
@@ -62,8 +70,8 @@ class Level:
         # Draw grid
         for x in range(self.size[0]):
             for y in range(self.size[1]):
-                rect = pg.Rect(self.camera_pos.x + self.x_center + y * self.bloc_size,
-                               self.camera_pos.y + self.y_center + x * self.bloc_size, self.bloc_size,
+                rect = pg.Rect((self.camera_pos.x + self.x_center + y * self.bloc_size) - self.half_bloc_size,
+                               (self.camera_pos.y + self.y_center + x * self.bloc_size) - self.half_bloc_size, self.bloc_size,
                                self.bloc_size)
                 if self.grid[x][y] != 0:
                     material = Materials.get_material(self.grid[x][y])
@@ -72,7 +80,7 @@ class Level:
                     bloc = StaticBloc((self.camera_pos.x + self.x_center + y * self.bloc_size,
                                        self.camera_pos.y + self.y_center + x * self.bloc_size),
                                       (self.bloc_size, self.bloc_size), material)
-                    bloc.display(self.screen)
+                    bloc.display(self.screen, self.camera)
 
                 if click_event and rect.collidepoint(click_event.pos):
                     if click_event.button == 3:
@@ -80,8 +88,8 @@ class Level:
                     else:
                         self.grid[x][y] = self.editor.current_material
 
-        rect = pg.Rect(self.camera_pos.x + self.x_center,
-                       self.camera_pos.y + self.y_center, self.grid_width,
+        rect = pg.Rect(self.camera_pos.x + self.x_center - self.half_bloc_size,
+                       self.camera_pos.y + self.y_center - self.half_bloc_size, self.grid_width,
                        self.grid_height)
         pg.draw.rect(self.screen, (200, 200, 200), rect, 1)
 

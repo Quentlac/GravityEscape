@@ -6,9 +6,9 @@ class Player(GravityItem):
     size = (25, 45)
     img_size = (50, 50)
     # Répertoire contenant les images du personnage
-    sprite_directory = "Sprites/walk"
-    sprites_jump = "Sprites/jump"
-    sprites_walk_back = "Sprites/walk_back"
+    sprite_directory = os.path.dirname(os.path.realpath(__file__)) + "/Sprites/walk"
+    sprites_jump = os.path.dirname(os.path.realpath(__file__)) + "/Sprites/jump"
+    sprites_walk_back = os.path.dirname(os.path.realpath(__file__)) + "/Sprites/walk_back"
 
     # Listes pour stocker les images du personnage pour chaque animation
     character_images_walk = []

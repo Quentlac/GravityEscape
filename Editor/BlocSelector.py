@@ -31,7 +31,7 @@ class BlocSelector:
             if type(material) == tuple:
                 material = material[0]
             bloc = StaticBloc((self.x_center + x * self.cell_size, pos_y), (self.cell_size, self.cell_size), material)
-            bloc.display(self.screen)
+            bloc.display(self.screen, self.editor.level.camera)
             # If the click is one of the element, update selected element
             if click_event and rect.collidepoint(click_event.pos):
                 self.editor.current_material = x + 1
