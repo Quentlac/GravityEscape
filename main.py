@@ -24,40 +24,22 @@ level = Level("level", window)
 
 bullets = []
 
-def shoot(x, y):
-    dx = x - player.getPosX()
-    dy = y - player.getPosY()
 
-    visee = pygame.Vector2(dx, dy)
-    visee = visee.normalize()
-
-    bullets.append(BulletItem((player.getPosX(), player.getPosY()), (visee.x, visee.y)))
 
 inGame = True
 
 while inGame:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == QUIT:
             inGame = False
-        if event.type == MOUSEBUTTONDOWN:
-            posX, posY = pygame.mouse.get_pos()
-            shoot(posX, posY)
 
     window.fill((0, 0, 0))
     pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
-    level.update(dt)
-
-    for b in bullets:
-        b.display(window)
-        b.move(dt)
-
-        if not b.active:
-            bullets.remove(b)
-
+    level.update(dt, events)
 
     pygame.display.update()
-
 
     dt = clock.tick(60)
 
