@@ -21,24 +21,24 @@ list_bloc = []
 
 level = Level("level", window)
 
-def shoot(x, y):
 
+def shoot(x, y):
     s = Item2D((x, y), (5, 5))
 
     for b in list_bloc:
-        if(b.testCollisionWithOtherItem(s)):
+        if (b.testCollisionWithOtherItem(s)):
             print("Invert", b)
             b.invertGravity()
             return True
 
     return False
 
+
 inGame = True
 
-player = Player((200, 200))
-
 while inGame:
-    for event in pygame.event.get():
+    events = pygame.event.get()
+    for event in events:
         if event.type == QUIT:
             inGame = False
         if event.type == MOUSEBUTTONDOWN:
@@ -57,21 +57,7 @@ while inGame:
         b.display(window)
         b.move(dt)
 
-    player.display(window)
-    player.move(dt)
-
     pygame.display.update()
-
-    keys = pygame.key.get_pressed()
-
-    if(keys[K_SPACE]):
-        player.jump()
-
-    if(keys[K_d] or keys[K_RIGHT]):
-        player.goRight(dt)
-
-    if(keys[K_q] or keys[K_LEFT]):
-        player.goLeft(dt)
 
     dt = clock.tick(60)
 
