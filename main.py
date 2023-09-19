@@ -3,6 +3,7 @@ from pygame.locals import *
 from Item.Item2D import Item2D
 from Bloc.GravityBloc import *
 from Bloc.StaticBloc import *
+from Item.BulletItem import *
 from Player import Player
 
 pygame.init()
@@ -18,17 +19,17 @@ roof = GravityItem((500, 0), (1000, 100))
 
 list_bloc = []
 
+bullets = [] # liste des bullets de gravité
+
 def shoot(x, y):
+    dx = x - player.getPosX()
+    dy = y - player.getPosY()
 
-    s = Item2D((x, y), (5, 5))
+    visee = pygame.Vector2(dx, dy)
+    visee = visee.normalize()
 
-    for b in list_bloc:
-        if(b.testCollisionWithOtherItem(s)):
-            print("Invert", b)
-            b.invertGravity()
-            return True
+    bullets.append(BulletItem((player.getPosX(), player.getPosY()), (visee.x, visee.y)))
 
-    return False
 
 inGame = True
 
@@ -41,8 +42,7 @@ while inGame:
             inGame = False
         if event.type == MOUSEBUTTONDOWN:
             posX, posY = pygame.mouse.get_pos()
-            if not shoot(posX, posY):
-                list_bloc.append(GravityBloc((posX, posY)))
+            shoot(posX, posY)
 
     window.fill((0, 0, 0))
 
@@ -57,6 +57,10 @@ while inGame:
 
     player.display(window)
     player.move(dt)
+
+    for b in bullets:
+        b.display(window)
+        b.move(dt)
 
     pygame.display.update()
 
