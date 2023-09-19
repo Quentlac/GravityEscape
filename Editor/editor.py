@@ -7,6 +7,7 @@ clock = pygame.time.Clock()
 running = True
 
 editor = Editor(screen)
+
 dt = 0
 while running:
     # Events
