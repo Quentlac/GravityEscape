@@ -1,5 +1,7 @@
 from Item.GravityItem import GravityItem
 import pygame
+
+
 class Player(GravityItem):
 
     def __init__(self, pos):
@@ -8,15 +10,17 @@ class Player(GravityItem):
         self._isJump = False
 
     def display(self, canva):
-        pygame.draw.rect(canva, 'red', pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width, self._height))
+        pygame.draw.rect(canva, 'red',
+                         pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width,
+                                     self._height))
 
     def jump(self):
-        if(not self._isJump):
+        if (not self._isJump):
             self._isJump = True
             self.addForce((0, -0.5))
 
     def goRight(self, dt):
-        nextX = self.getPosX() + 0.15 *dt
+        nextX = self.getPosX() + 0.15 * dt
         nextY = self.getPosY()
 
         self.setPosition(nextX, nextY)
@@ -41,6 +45,10 @@ class Player(GravityItem):
                 col = True
 
         if col:
-            self.setPosition(nextX + 0.15*dt, nextY)
+            self.setPosition(nextX + 0.15 * dt, nextY)
 
-
+    def is_dead(self):
+        for b in GravityItem.getItems():
+            if b.testCollisionWithOtherItem(self):
+                return True
+        return False

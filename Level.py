@@ -53,8 +53,8 @@ class Level:
 
         self.load_grid()
 
-        self.player = Player((200, 200))
-
+        self.player = Player((0, 0))
+        self.respawn()
         self.camera = Camera(self.grid_width, self.grid_height, self.x_center, self.y_center)
 
     def load_grid(self):
@@ -88,6 +88,8 @@ class Level:
 
         self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
 
+    def respawn(self):
+        self.player.setPosition(200,200)
     def update(self, dt, events):
         if self.background:
             x = 0
@@ -114,6 +116,9 @@ class Level:
 
         self.player.display(self.screen)
         self.player.move(dt)
+        if self.player.is_dead():
+            self.respawn()
+
 
         keys = pg.key.get_pressed()
 
