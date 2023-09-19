@@ -1,4 +1,4 @@
-from GravityItem import GravityItem
+from Item.GravityItem import GravityItem
 
 class GravityBloc(GravityItem):
     def __init__(self, pos):

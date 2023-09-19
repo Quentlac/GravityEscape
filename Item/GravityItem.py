@@ -1,4 +1,4 @@
-from Item2D import Item2D
+from Item.Item2D import Item2D
 class GravityItem(Item2D):
 
     items = []

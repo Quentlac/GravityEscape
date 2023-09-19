@@ -1,4 +1,4 @@
-from GravityItem import GravityItem
+from Item.GravityItem import GravityItem
 
 class StaticBloc(GravityItem):
 

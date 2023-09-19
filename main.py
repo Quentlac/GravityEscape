@@ -1,9 +1,8 @@
 import pygame
 from pygame.locals import *
-from Item2D import Item2D
-from GravityItem import GravityItem
-from GravityBloc import GravityBloc
-from StaticBloc import StaticBloc
+from Item.Item2D import Item2D
+from Bloc.GravityBloc import *
+from Bloc.StaticBloc import *
 from Player import Player
 
 pygame.init()
