@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 from Item2D import Item2D
 from GravityItem import GravityItem
+from GravityBloc import GravityBloc
 from Player import Player
 
 pygame.init()
@@ -12,8 +13,8 @@ pygame.display.set_caption("Gravity Escape")
 clock = pygame.time.Clock()
 dt = 0
 
-floor = GravityItem((500, 700), (1000, 100), 0)
-roof = GravityItem((500, 0), (1000, 100), 0)
+floor = GravityItem((500, 700), (1000, 100))
+roof = GravityItem((500, 0), (1000, 100))
 
 list_bloc = []
 
@@ -40,7 +41,7 @@ while inGame:
         if event.type == MOUSEBUTTONDOWN:
             posX, posY = pygame.mouse.get_pos()
             if not shoot(posX, posY):
-                list_bloc.append(GravityItem((posX, posY), (50, 50), 0.002))
+                list_bloc.append(GravityBloc((posX, posY)))
 
     window.fill((0, 0, 0))
 

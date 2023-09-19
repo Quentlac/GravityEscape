@@ -2,7 +2,7 @@ from Item2D import Item2D
 class GravityItem(Item2D):
 
     items = []
-    def __init__(self, pos, size, gravity, weight = 1):
+    def __init__(self, pos, size, gravity = 0, weight = 1):
         super().__init__(pos, size)
 
         self._forceX = 0
@@ -12,8 +12,6 @@ class GravityItem(Item2D):
         self._weight = weight
         GravityItem.newItem(self)
 
-    def invertGravity(self):
-        self._gravity = -self._gravity
     def setForce(self, force):
         self._forceX = force[0]
         self._forceY = force[1]
@@ -55,14 +53,6 @@ class GravityItem(Item2D):
 
         self.setPosition(nextX, nextY)
 
-    def display(self, canva):
-        if(self._gravity > 0):
-            super().display(canva, 'orange')
-        elif(self._gravity < 0):
-            super().display(canva, 'cyan')
-        else:
-            super().display(canva, 'white')
-
     @classmethod
     def getItems(cls):
         return cls.items
@@ -71,4 +61,11 @@ class GravityItem(Item2D):
     def newItem(cls, item : 'GravityItem'):
         cls.items.append(item)
 
+    def display(self, canva):
+        if(self._gravity > 0):
+            super().display(canva, 'orange')
+        elif(self._gravity < 0):
+            super().display(canva, 'cyan')
+        else:
+            super().display(canva, 'white')
 
