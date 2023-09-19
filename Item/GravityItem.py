@@ -43,7 +43,8 @@ class GravityItem(Item2D):
             # Collision avec un élément (autre bloc par exemple)
             if self.testCollisionWithOtherItem(i, dx, dy):
                 if self._isPlayer:
-                    self._isJump = False
+                    if(self._forceY > 0):
+                        self._isJump = False
                     self.addForce((-self._forceX + i._forceX, -self._forceY + i._forceY))
 
                 elif (not i._isPlayer):
