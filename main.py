@@ -61,6 +61,9 @@ while inGame:
         b.display(window)
         b.move(dt)
 
+        if not b.active:
+            bullets.remove(b)
+
     player.display(window)
     player.move(dt)
 
