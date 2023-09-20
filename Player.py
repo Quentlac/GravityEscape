@@ -1,5 +1,6 @@
 from Item.GravityItem import GravityItem
 import pygame
+import os
 
 
 class Player(GravityItem):
@@ -68,10 +69,11 @@ class Player(GravityItem):
 
     def display(self, canva, camera):
         # Remove comment to see hitbox
-        #pygame.draw.rect(canva, 'red', pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
         offset_x, offset_y = camera.getOffset()
-        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 2)
+        #pygame.draw.rect(canva, 'red', pygame.Rect(offset_x + self._posX - self._width / 2, offset_y + self._posY - self._height / 2, self._width, self._height), 1)
+
+        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 1.3)
         if self.current_animation == "idle":
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
