@@ -9,7 +9,7 @@ from Level import Level
 
 pygame.init()
 
-window = pygame.display.set_mode((1000, 700))
+window = pygame.display.set_mode((1024, 768))
 pygame.display.set_caption("Gravity Escape")
 
 clock = pygame.time.Clock()
@@ -31,7 +31,7 @@ while inGame:
         if event.type == QUIT:
             inGame = False
 
-    window.fill((0, 0, 0))
+    window.fill((100, 255, 255))
     pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
     level.update(dt, events)

@@ -25,7 +25,7 @@ class GravityItem(Item2D):
 
     def move(self, dt):
 
-        self.addForce((0, self._gravity))
+        self.addForce((0, self._gravity * dt))
 
         dx = self._forceX * dt
         dy = self._forceY * dt

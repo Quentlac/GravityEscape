@@ -64,7 +64,7 @@ class Level:
         self.level_elements.extend([top, bottom, left, right])
 
         self.player = Player((0, 0))
-        self.camera = Camera(self.player)
+        self.camera = Camera(self.player, screen.get_size())
         self.respawn()
 
     def load_grid(self):
@@ -135,8 +135,8 @@ class Level:
 
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_SPACE]:
-            self.player.jump()
+        if keys[pg.K_SPACE] or keys[pg.K_UP]:
+            self.player.jump(dt)
         if keys[pg.K_d] or keys[pg.K_RIGHT]:
             self.player.goRight(dt)
         if keys[pg.K_q] or keys[pg.K_LEFT]:

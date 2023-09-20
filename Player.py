@@ -26,7 +26,7 @@ class Player(GravityItem):
 
 
     def __init__(self, pos):
-        super().__init__(pos, self.size, 0.02)
+        super().__init__(pos, self.size, 0.001)
         self.current_frame = 0
         self._isPlayer = True
         self._isJump = False
@@ -89,15 +89,14 @@ class Player(GravityItem):
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
         self.update_animation()
 
-    def jump(self):
-        if not self._isJump:
+    def jump(self, dt):
+        if (not self._isJump):
             self._isJump = True
+            self.addForce((0, -0.45))
             self.current_animation = "jump"  # Commencez l'animation de saut
 
             # Réinitialisez l'indice de l'image actuelle pour commencer par la première image de saut
             self.current_frame = 0
-
-            self.addForce((0, -0.5))
 
     def goRight(self, dt):
         nextX = self.getPosX() + 0.15 * dt
