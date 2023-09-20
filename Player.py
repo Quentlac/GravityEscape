@@ -1,10 +1,9 @@
-import math
-
 from Item.GravityItem import GravityItem
 import pygame, os
 
 
 class Player(GravityItem):
+
     size = (25, 45)
     img_size = (50, 50)
     # Répertoire contenant les images du personnage
@@ -43,6 +42,10 @@ class Player(GravityItem):
         gunImg = pygame.image.load(os.path.join("view/", "gunpistol.png"))
         self.gunImgRight = pygame.transform.scale(gunImg, (50, 20))
         self.gunImgLeft = pygame.transform.flip(self.gunImgRight, False, True)
+        self.idle_image = pygame.image.load(os.path.join("Sprites/walk", "walk1.png"))
+        self.music = pygame.mixer.music
+        self.walkingsound = False
+
 
     def update_animation(self):
         # Choisissez l'animation appropriée en fonction de la situation
@@ -93,6 +96,8 @@ class Player(GravityItem):
         canva.blit(shotgun_r, (offset_x + self._posX - 30, offset_y + self._posY - 35))
 
         if self.current_animation == "idle":
+            self.walkingsound = False
+            self.music.stop()
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
             else:
@@ -108,16 +113,21 @@ class Player(GravityItem):
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
         self.update_animation()
 
-    def jump(self, dt):
-        if (not self._isJump):
+    def jump(self):
+        self.music.load("ressources/sound-jump.mp3")
+        self.music.play()
+        if not self._isJump:
             self._isJump = True
-            self.addForce((0, -0.45))
             self.current_animation = "jump"  # Commencez l'animation de saut
-
             # Réinitialisez l'indice de l'image actuelle pour commencer par la première image de saut
             self.current_frame = 0
 
     def goRight(self, dt):
+        if not self.walkingsound:
+            self.music.load("ressources/sound-moving.mp3")
+            self.music.play(-1)
+            print("test")
+            self.walkingsound = True
         nextX = self.getPosX() + 0.15 * dt
         nextY = self.getPosY()
 
