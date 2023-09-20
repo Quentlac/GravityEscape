@@ -1,3 +1,4 @@
+from Bloc.NoKillBloc import NoKillBloc
 from Item.Item2D import *
 from Item.GravityItem import *
 from Bloc.GravityBloc import *
@@ -37,7 +38,7 @@ class BulletItem(Item2D):
             col = False
 
             for b in GravityItem.getItems():
-                if(not b._isPlayer and self.testCollisionWithOtherItem(b, dx, dy)):
+                if(not isinstance(b, NoKillBloc) and not b._isPlayer and self.testCollisionWithOtherItem(b, dx, dy)):
                     col = True
                     if(isinstance(b, GravityBloc)):
                         b.invertGravity()

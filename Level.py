@@ -1,10 +1,9 @@
 import json
 import os
 
+from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
-from Camera import Camera
 from Item.BulletItem import BulletItem
-from Item.GravityItem import GravityItem
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
@@ -76,8 +75,8 @@ class Level:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
                         elif material[1] == NoKillBloc:
                             bloc = NoKillBloc(pos, self.default_size, material[0])
-                        elif material[1] == GravityBloc:
-                            bloc = GravityBloc(pos)
+                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc:
+                            bloc = material[1](pos)
                             self.list_gravity_bloc.append(bloc)
                         else:
                             bloc = None
