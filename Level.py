@@ -10,6 +10,7 @@ from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
 from Item.GravityItem import GravityItem
+from LoreDisplayer import LoreDisplayer
 from Menu.Pause import Pause
 from Player import Player
 from view.Materials import Materials
@@ -32,6 +33,7 @@ class Level:
         self.game_end = callback
         self.is_pause = False
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
+        self.is_in_text = True
         pygame.mixer.music.stop()
         try:
             # Loading level file
@@ -54,6 +56,11 @@ class Level:
                     print("Background not found")
                     self.background = None
 
+            if self.json_data.get("lore", False):
+                self.lore = LoreDisplayer(self.json_data["lore"], self.end_lore)
+            else:
+                self.is_in_text = False
+
             if self.json_data.get("music", False):
                 pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/ressources/" + self.json_data["music"])
 
@@ -75,14 +82,19 @@ class Level:
         self.player.setPosition(self.spawn[0], self.spawn[1])
         self.init_music()
 
+    def end_lore(self):
+        self.is_in_text = False
+
     def init_music(self):
         pygame.mixer.music.stop()
         pygame.mixer.music.set_volume(.08)
         pygame.mixer.music.play(-1)
     def end_pause(self):
         self.is_pause = False
+
     def endcallback(self):
         self.game_end()
+
     def load_grid(self):
         self.bullets = []
         self.level_elements = []
@@ -134,9 +146,13 @@ class Level:
         self.spawn = pos
 
     def update(self, dt, events):
+        if self.is_in_text:
+            self.lore.update(self.screen, dt, events)
+            return
+
         if self.background:
             offset_x, offset_y = self.camera.getParralaxOffset(0.5)
-            bgX = (offset_x%self.background.get_size()[0] - self.screen.get_size()[0])
+            bgX = (offset_x % self.background.get_size()[0] - self.screen.get_size()[0])
             bgY = offset_y + 50
             self.screen.blit(self.background, (bgX, bgY))
             self.screen.blit(self.background, (bgX + self.background.get_size()[0], bgY))

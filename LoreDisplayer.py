@@ -3,11 +3,12 @@ import pygame
 
 class LoreDisplayer:
 
-    def __init__(self, text):
+    def __init__(self, text, done_cb):
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 20)
         self.text = text + "\nPress enter to start level"
         self.index = 0
         self.dt_acc = 0
+        self.done_cb = done_cb
 
     def update(self, screen: pygame.Surface, dt, events):
         self.dt_acc += dt
@@ -40,5 +41,5 @@ class LoreDisplayer:
                 if self.index < len(self.text):
                     self.index = len(self.text)
                 else:
-                    print("done")
+                    self.done_cb()
 
