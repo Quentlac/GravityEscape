@@ -39,9 +39,8 @@ class Item2D:
 
     def display(self, canva, camera, color):
         offset_x, offset_y = camera.getOffset()
-
-        #pygame.draw.rect(canva, 'black', pygame.Rect(offset_x + self._posX - self._width/2, offset_y + self._posY - self._height / 2, self._width, self._height))
-        pygame.draw.rect(canva, color, pygame.Rect(offset_x+ self._posX - (self._width-3)/2, offset_y + self._posY - (self._height-3)/2, self._width-3, self._height-3), border_radius=3)
+        pygame.draw.rect(canva, '#222222', pygame.Rect(offset_x + self._posX - self._width/2, offset_y + self._posY - self._height / 2, self._width, self._height), border_radius=3)
+        pygame.draw.rect(canva, color, pygame.Rect(offset_x+ self._posX - (self._width-4)/2, offset_y + self._posY - (self._height-4)/2, self._width-4, self._height-4), border_radius=3)
 
 
     def move(self, dX, dY):
