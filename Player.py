@@ -42,9 +42,12 @@ class Player(GravityItem):
         gunImg = pygame.image.load(os.path.join("view/", "gunpistol.png"))
         self.gunImgRight = pygame.transform.scale(gunImg, (50, 20))
         self.gunImgLeft = pygame.transform.flip(self.gunImgRight, False, True)
-        self.music = pygame.mixer.music
-        self.walkingsound = False
-        self.jumpsound = False
+
+
+        self.walkingsound = pygame.mixer.Sound(os.path.dirname(os.path.realpath(__file__)) + "/ressources/sound-moving.mp3")
+        self.is_walkingsound = False
+        self.jumpsound = pygame.mixer.Sound(os.path.dirname(os.path.realpath(__file__)) + "/ressources/sound-jump.mp3")
+        self.is_jumpsound = False
 
 
     def update_animation(self):
@@ -96,9 +99,13 @@ class Player(GravityItem):
         canva.blit(shotgun_r, (offset_x + self._posX - 30, offset_y + self._posY - 35))
 
         if self.current_animation == "idle":
-            self.walkingsound = False
-            self.jumpsound = False
-            self.music.stop()
+            if self.is_walkingsound:
+                self.is_walkingsound = False
+                self.walkingsound.stop()
+            if self.is_jumpsound:
+                self.is_jumpsound = False
+                self.jumpsound.stop()
+
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
             else:
@@ -115,11 +122,9 @@ class Player(GravityItem):
         self.update_animation()
 
     def jump(self, dt):
-        if not self.jumpsound:
-            self.music.load("ressources/sound-jump.mp3")
-            self.music.play(1)
-            print("Test")
-            self.jumpsound = True
+        if not self.is_jumpsound:
+            self.jumpsound.play(1)
+            self.is_jumpsound = True
         if not self._isJump:
             self._isJump = True
             self.addForce((0, -0.45))
@@ -129,10 +134,9 @@ class Player(GravityItem):
             self.current_frame = 0
 
     def goRight(self, dt):
-        if not self.walkingsound:
-            self.music.load("ressources/sound-moving.mp3")
-            self.music.play(-1)
-            self.walkingsound = True
+        if not self.is_walkingsound:
+            self.walkingsound.play(-1)
+            self.is_walkingsound = True
         nextX = self.getPosX() + 0.15 * dt
         nextY = self.getPosY()
 
@@ -151,10 +155,9 @@ class Player(GravityItem):
             self.setPosition(nextX - 0.15 * dt, nextY)
 
     def goLeft(self, dt):
-        if not self.walkingsound:
-            self.music.load("ressources/sound-moving.mp3")
-            self.music.play(-1)
-            self.walkingsound = True
+        if not self.is_walkingsound:
+            self.walkingsound.play(-1)
+            self.is_walkingsound = True
         nextX = self.getPosX() - 0.15 * dt
         nextY = self.getPosY()
 

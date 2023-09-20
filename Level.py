@@ -32,6 +32,7 @@ class Level:
         self.game_end = callback
         self.is_pause = False
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
+        pygame.mixer.music.stop()
         try:
             # Loading level file
             with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name, "r") as f:
