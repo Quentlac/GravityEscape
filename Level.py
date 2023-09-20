@@ -8,6 +8,7 @@ from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
+from Editor.Editor import Editor
 from Item.BulletItem import BulletItem
 from Item.GravityItem import GravityItem
 from LoreDisplayer import LoreDisplayer
@@ -27,6 +28,7 @@ class Level:
     bullets = []
 
     def __init__(self, name, screen, callback):
+        self.name = name
         self.level_elements = []
         self.level_name = name
         self.screen = screen
@@ -35,9 +37,35 @@ class Level:
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
         self.is_in_text = True
         pygame.mixer.music.stop()
+
+        self.is_music = None
+        self.lore = None
+        self.background = None
+        self.grid = None
+        self.size = None
+        self.json_data = None
+        self.load_json()
+
+        # Get center of the screen
+        self.grid_width = self.size[1] * self.default_size[0]
+        self.grid_height = self.size[0] * self.default_size[1]
+        self.x_center = (screen.get_size()[0] - self.grid_width) // 2
+        self.y_center = (screen.get_size()[1] - self.grid_height) // 2
+        self.spawn = (0, 0)
+        self.load_grid()
+
+        self.player = Player(self.spawn)
+        self.camera = Camera(self.player, screen.get_size())
+        self.player.setPosition(self.spawn[0], self.spawn[1])
+        self.init_music()
+
+        self.is_in_editor = False
+        self.editor = None
+
+    def load_json(self):
         try:
             # Loading level file
-            with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name, "r") as f:
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + self.name, "r") as f:
                 self.json_data = json.load(f)
 
             self.size = self.json_data["size"]
@@ -48,8 +76,8 @@ class Level:
                 try:
                     bg = pg.image.load(
                         f"{os.path.dirname(os.path.realpath(__file__))}/view/backgrounds/{self.json_data['background']}")
-                    new_width = (bg.get_size()[0] * screen.get_size()[1]) // bg.get_size()[0]
-                    bg = pg.transform.scale(bg, (screen.get_size()[0], screen.get_size()[1]))
+                    new_width = (bg.get_size()[0] * self.screen.get_size()[1]) // bg.get_size()[0]
+                    bg = pg.transform.scale(bg, (self.screen.get_size()[0], self.screen.get_size()[1]))
 
                     self.background = bg
                 except FileNotFoundError as e:
@@ -70,20 +98,6 @@ class Level:
             print("Error decoding level json file")
         except KeyError as e:
             print("Missing key in level file: ", e)
-
-        # Get center of the screen
-        self.grid_width = self.size[1] * self.default_size[0]
-        self.grid_height = self.size[0] * self.default_size[1]
-        self.x_center = (screen.get_size()[0] - self.grid_width) // 2
-        self.y_center = (screen.get_size()[1] - self.grid_height) // 2
-        self.spawn = (0, 0)
-        self.load_grid()
-
-        self.player = Player(self.spawn)
-        self.camera = Camera(self.player, screen.get_size())
-        self.player.setPosition(self.spawn[0], self.spawn[1])
-        self.init_music()
-
     def end_lore(self):
         self.is_in_text = False
 
@@ -145,12 +159,29 @@ class Level:
         self.end_pause()
         self.init_music()
 
+    def open_editor(self):
+        if self.is_music:
+            pygame.mixer.music.stop()
+        self.is_in_editor = True
+        self.editor = Editor(self.screen, self.name, self.close_editor)
+
+    def close_editor(self):
+        self.is_in_editor = False
+        self.load_json()
+        self.load_grid()
+        self.editor = None
+        self.init_music()
+
     def setcheckpoint(self, pos):
         self.spawn = pos
 
     def update(self, dt, events):
         if self.is_in_text:
             self.lore.update(self.screen, dt, events)
+            return
+
+        if self.is_in_editor:
+            self.editor.update(events, dt)
             return
 
         if self.background:
@@ -168,6 +199,8 @@ class Level:
             if event.type == pg.KEYUP:
                 if event.key == pg.K_ESCAPE:
                     self.is_pause = not self.is_pause
+                if event.key == pg.K_j:
+                    self.open_editor()
 
         for b in self.list_gravity_bloc:
             b.move(dt)

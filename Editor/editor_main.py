@@ -1,5 +1,5 @@
 import pygame
-from Editor import Editor
+from Editor.Editor import Editor
 # pygame setup
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
