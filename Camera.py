@@ -1,13 +1,13 @@
 class Camera:
-    def __init__(self, player):
+    def __init__(self, player, size):
         self.camera_x = 0
         self.camera_y = 0
 
         self.camera_target_x = 0
         self.camera_target_y = 0
 
-        self.camera_width = 1000
-        self.camera_height = 700
+        self.camera_width = size[0]
+        self.camera_height = size[1]
 
         self._player = player
         self._speed = 0.01

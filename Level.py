@@ -57,7 +57,7 @@ class Level:
         self.load_grid()
 
         self.player = Player((0, 0))
-        self.camera = Camera(self.player)
+        self.camera = Camera(self.player, screen.get_size())
         self.respawn()
 
     def load_grid(self):
