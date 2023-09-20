@@ -9,6 +9,7 @@ from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
+from Menu.Pause import Pause
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
@@ -28,6 +29,8 @@ class Level:
         self.level_name = name
         self.screen = screen
         self.game_end = callback
+        self.is_pause = False
+        self.pause = Pause(self.end_pause, self.respawn, self.game_end)
         try:
             # Loading level file
             with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name, "r") as f:
@@ -64,11 +67,15 @@ class Level:
 
         self.player = Player(self.spawn)
         self.camera = Camera(self.player, screen.get_size())
-        self.respawn()
-
+        self.player.setPosition(self.spawn[0], self.spawn[1])
+    def end_pause(self):
+        self.is_pause = False
     def endcallback(self):
         self.game_end()
     def load_grid(self):
+        self.bullets = []
+        self.level_elements = []
+        GravityBloc.items = []
         # Draw grid
         for x in range(self.size[0]):
             for y in range(self.size[1]):
@@ -107,6 +114,8 @@ class Level:
 
     def respawn(self):
         self.player.setPosition(self.spawn[0], self.spawn[1])
+        self.load_grid()
+        self.end_pause()
 
     def setcheckpoint(self, pos):
         self.spawn = pos
@@ -124,6 +133,9 @@ class Level:
                 posX, posY = pg.mouse.get_pos()
                 offset_x, offset_y = self.camera.getOffset()
                 self.shoot(-offset_x + posX, -offset_y + posY, event.button)
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_ESCAPE:
+                    self.is_pause = not self.is_pause
 
         for b in self.list_gravity_bloc:
             b.move(dt)
@@ -165,3 +177,6 @@ class Level:
             self.player.goRight(dt)
         if keys[pg.K_q] or keys[pg.K_LEFT]:
             self.player.goLeft(dt)
+
+        if self.is_pause:
+            self.pause.update(self.screen, events)

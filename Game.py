@@ -1,5 +1,6 @@
 import pygame
 
+from Item.GravityItem import GravityItem
 from Level import Level
 from LoreDisplayer import LoreDisplayer
 from Menu.Menu import Menu
@@ -27,6 +28,8 @@ class Game:
 
     def callback(self):
         self.current = Game.MENU
+        self.game = None
+        GravityItem.items = []
         self.menu.current = Menu.LEVELS
     def change_dispay(self, page):
         self.current = page
