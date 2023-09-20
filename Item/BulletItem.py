@@ -16,7 +16,7 @@ class BulletItem(Item2D):
     def display(self, canva, camera):
         offset_x, offset_y = camera.getOffset()
         if self.active:
-            pygame.draw.circle(canva, 'green', (offset_x + self._posX, offset_y + self._posY), self.getWidth())
+            pygame.draw.circle(canva, 'darkgreen', (offset_x + self._posX, offset_y + self._posY), self.getWidth())
 
     def bounce(self, b : 'Item2D'):
         if(self._nbBounce < 3):

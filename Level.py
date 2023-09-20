@@ -61,7 +61,7 @@ class Level:
         right = GravityItem((self.grid_width, (self.grid_height/2) - 200), (50, self.grid_height + 50))
         bottom = GravityItem(((self.grid_width / 2) - self.default_size[0] / 2, self.grid_height - 200), (self.grid_width, 50))
         left = GravityItem((-50, (self.grid_height/2) - 200), (50, self.grid_height + 50))
-        self.level_elements.extend([top, bottom, left, right])
+        #self.level_elements.extend([top, bottom, left, right])
 
         self.player = Player((0, 0))
         self.camera = Camera(self.player, screen.get_size())
