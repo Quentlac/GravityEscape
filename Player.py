@@ -160,7 +160,7 @@ class Player(GravityItem):
         if self.getPosY() > height + 100:
             return True
         for b in GravityItem.getItems():
-            if (b != self and math.sqrt((self._posX - b._posX)**2 + (self._posY - b._posY)**2) < 15 ):
+            if (b != self and math.sqrt((self._posX - b._posX)**2 + (self._posY - b._posY)**2) < 25 ):
                 return True
         return False
 
