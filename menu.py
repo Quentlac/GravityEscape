@@ -11,6 +11,7 @@ res = (1024,768)
 white = (255,255,255)
 black = (0,0,0)
 font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
+font_return = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 20)
 click = False
 scroll = 0
 music = pygame.mixer.music.load("ressources/Iron_Maiden_-_Fear_Of_The_Dark.mp3")
@@ -137,6 +138,7 @@ def game():
 def credits():
     # On laisse le background défiler
     running = True
+    global click
     while running:
         global scroll
         screen.fill(white)
@@ -151,6 +153,11 @@ def credits():
         if abs(scroll) > background.get_width():
             scroll = 0
 
+        button_return = pygame.Rect(30, 30, 100, 50)
+        pygame.draw.rect(screen, (0, 142, 114), button_return)
+        draw_text('Return', font_return, black, screen, button_return.width // 2 - 5,
+                  button_return.bottom - button_return.height // 2 - 7)
+
         # Titre crédit et crédits en dessous
         draw_text("CREDITS", font, black, screen, screen.get_width()//2-71,40)
         draw_text("-X (pour le truc)", font, black, screen, screen.get_width()//2-161,150)
@@ -163,6 +170,12 @@ def credits():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     running = False
+
+            mx, my = pygame.mouse.get_pos()
+            if button_return.collidepoint((mx, my)):
+                if click:
+                    pygame.quit()
+                    sys.exit()
 
         pygame.display.update()
         clock.tick(60)
