@@ -1,6 +1,8 @@
 import json
 import os
+import sys
 
+from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Item.BulletItem import BulletItem
@@ -60,6 +62,8 @@ class Level:
         self.camera = Camera(self.player, screen.get_size())
         self.respawn()
 
+    def endcallback(self):
+        sys.exit(0)
     def load_grid(self):
         # Draw grid
         for x in range(self.size[0]):
@@ -78,6 +82,8 @@ class Level:
                         elif material[1] == GravityBloc or material[1] == InvertGravityBloc:
                             bloc = material[1](pos)
                             self.list_gravity_bloc.append(bloc)
+                        elif material[1] == EndBloc:
+                            bloc = material[1](pos, self.endcallback, material[0])
                         else:
                             bloc = None
                     if bloc:
