@@ -5,6 +5,7 @@ import sys
 from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
+from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
 from Player import Player
 from view.Materials import Materials
@@ -55,10 +56,10 @@ class Level:
         self.grid_height = self.size[0] * self.default_size[1]
         self.x_center = (screen.get_size()[0] - self.grid_width) // 2
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
-
+        self.spawn = (0, 0)
         self.load_grid()
 
-        self.player = Player((0, 0))
+        self.player = Player(self.spawn)
         self.camera = Camera(self.player, screen.get_size())
         self.respawn()
 
@@ -84,6 +85,9 @@ class Level:
                             self.list_gravity_bloc.append(bloc)
                         elif material[1] == EndBloc:
                             bloc = material[1](pos, self.endcallback, material[0])
+                        elif material[1] == SpawnBloc:
+                            bloc = material[1](pos, material[0])
+                            self.spawn = pos
                         else:
                             bloc = None
                     if bloc:
@@ -99,7 +103,10 @@ class Level:
         self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
 
     def respawn(self):
-        self.player.setPosition(200, 200)
+        self.player.setPosition(self.spawn[0], self.spawn[1])
+
+    def setcheckpoint(self, pos):
+        self.spawn = pos
 
     def update(self, dt, events):
         if self.background:

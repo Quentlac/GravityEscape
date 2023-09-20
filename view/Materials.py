@@ -6,6 +6,9 @@ from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
 from Bloc.GravityBloc import GravityBloc
 from Bloc.NoKillBloc import NoKillBloc
+from Bloc.SpawnBloc import SpawnBloc
+
+
 class Materials:
     directory = os.path.dirname(os.path.realpath(__file__)) + "/blocks"
     materials = {
@@ -33,7 +36,9 @@ class Materials:
         22: (pg.image.load(f"{directory}/block-gravity.png"), GravityBloc),
         23: (pg.image.load(f"{directory}/block-gravity-blue.png"), InvertGravityBloc),
         24: (pg.image.load(f"{directory}/block-through-transparency.png"), NoKillBloc),
-        25: (pg.image.load(f"{directory}/block-rebound.png"), EndBloc),
+        25: (pg.image.load(f"{directory}/block-red-flag.png"), EndBloc),
+        26: (pg.image.load(f"{directory}/block-green-flag.png"), SpawnBloc),
+        27: (pg.image.load(f"{directory}/block-green-flag.png"), SpawnBloc),
 
     }
 

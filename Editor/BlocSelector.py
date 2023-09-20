@@ -25,6 +25,7 @@ class BlocSelector:
             material = material[1]
             # Change y position if the bloc is the selected one
             pos_y = 8 if x+1 == self.editor.current_material else 0
+            pos_y += self.cell_size / 2
             # Get rectangle
             rect = pg.Rect(self.x_center + x * self.cell_size, pos_y, self.cell_size, self.cell_size)
 
