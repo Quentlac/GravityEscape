@@ -26,4 +26,7 @@ class Camera:
     def getOffset(self):
         return (-(self.camera_x - self.camera_width / 2), -(self.camera_y - self.camera_height / 2))
 
+    def getParralaxOffset(self, qp):
+        return (-(self.camera_x - self.camera_width / 2)*qp, -(self.camera_y - self.camera_height / 2)*qp)
+
 

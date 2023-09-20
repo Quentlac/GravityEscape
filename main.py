@@ -17,7 +17,7 @@ dt = 0
 
 list_bloc = []
 
-level = Level("level1", window)
+level = Level("level3", window)
 
 bullets = []
 

@@ -43,7 +43,7 @@ class Level:
                     bg = pg.image.load(
                         f"{os.path.dirname(os.path.realpath(__file__))}/view/backgrounds/{self.json_data['background']}")
                     new_width = (bg.get_size()[0] * screen.get_size()[1]) // bg.get_size()[0]
-                    bg = pg.transform.scale(bg, (new_width, screen.get_size()[1]))
+                    bg = pg.transform.scale(bg, (screen.get_size()[0], screen.get_size()[1]))
 
                     self.background = bg
                 except FileNotFoundError as e:
@@ -114,10 +114,12 @@ class Level:
 
     def update(self, dt, events):
         if self.background:
-            x = 0
-            while x < self.screen.get_size()[0]:
-                self.screen.blit(self.background, (x, 0))
-                x += self.background.get_size()[0]
+            offset_x, offset_y = self.camera.getParralaxOffset(0.5)
+            bgX = (offset_x%self.background.get_size()[0] - self.screen.get_size()[0])
+            bgY = offset_y + 50
+            self.screen.blit(self.background, (bgX, bgY))
+            self.screen.blit(self.background, (bgX + self.background.get_size()[0], bgY))
+
         for event in events:
             if event.type == pg.MOUSEBUTTONDOWN:
                 posX, posY = pg.mouse.get_pos()
