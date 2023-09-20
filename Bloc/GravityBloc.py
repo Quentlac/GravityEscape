@@ -9,3 +9,13 @@ class GravityBloc(GravityItem):
 
     def display(self, canva, camera):
         super().display(canva, camera)
+
+
+    @classmethod
+    def getItems(cls):
+        l = []
+        for i in GravityItem.getItems():
+            if(isinstance(i, GravityBloc)):
+                l.append(i)
+
+        return l

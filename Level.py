@@ -2,6 +2,8 @@ import json
 import os
 import sys
 
+import pygame.draw
+
 from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
@@ -126,6 +128,19 @@ class Level:
 
         for elem in self.level_elements:
             elem.display(self.screen, self.camera)
+
+        # Hover gravity bloc
+        posX, posY = pg.mouse.get_pos()
+        offset_x, offset_y = self.camera.getOffset()
+
+        for b in GravityBloc.getItems():
+            if b.testCollision(-offset_x + posX, -offset_y + posY):
+                x = offset_x + b.getPosX()
+                y = offset_y + b.getPosY()
+                s = pygame.surface.Surface((b.getWidth(), b.getHeight()), pygame.SRCALPHA)
+                s.fill((0, 0, 0, 0))
+                pygame.draw.rect(s, (0, 0, 0, 50), (1, 1, b.getWidth() - 2, b.getHeight() - 2), border_radius=3)
+                self.screen.blit(s, (x - b.getWidth() / 2, y - b.getHeight() / 2))
 
         for b in self.bullets:
             b.display(self.screen, self.camera)
