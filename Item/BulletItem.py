@@ -6,18 +6,20 @@ import pygame
 
 class BulletItem(Item2D):
 
-    def __init__(self, pos, visee):
+    def __init__(self, pos, visee, button):
         super().__init__(pos, (5, 5))
         self._directionX = visee[0]
         self._directionY = visee[1]
         self._speed = 0.5
         self.active = True
         self._nbBounce = 0
+        self.button = 1 if button == 1 else 0
 
     def display(self, canva, camera):
         offset_x, offset_y = camera.getOffset()
         if self.active:
-            pygame.draw.circle(canva, 'darkgreen', (offset_x + self._posX, offset_y + self._posY), self.getWidth())
+            color = "blue" if self.button == 1 else "orange"
+            pygame.draw.circle(canva, color, (offset_x + self._posX, offset_y + self._posY), self.getWidth())
 
     def bounce(self, b : 'Item2D'):
         if(self._nbBounce < 3):
@@ -41,7 +43,7 @@ class BulletItem(Item2D):
                 if(not isinstance(b, NoKillBloc) and not b._isPlayer and self.testCollisionWithOtherItem(b, dx, dy)):
                     col = True
                     if(isinstance(b, GravityBloc)):
-                        b.invertGravity()
+                        b.invertGravity(self.button)
                         self.active = False
 
                     else:

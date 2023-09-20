@@ -4,6 +4,7 @@ import sys
 
 import pygame.draw
 
+from Bloc.GravityBlocStoppable import GravityBlocStoppable
 from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
@@ -83,7 +84,7 @@ class Level:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
                         elif material[1] == NoKillBloc:
                             bloc = NoKillBloc(pos, self.default_size, material[0])
-                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc:
+                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[1] == GravityBlocStoppable:
                             bloc = material[1](pos)
                             self.list_gravity_bloc.append(bloc)
                         elif material[1] == EndBloc:
@@ -96,14 +97,14 @@ class Level:
                     if bloc:
                         self.level_elements.append(bloc)
 
-    def shoot(self, x, y):
+    def shoot(self, x, y, button):
         dx = x - self.player.getPosX()
         dy = y - self.player.getPosY()
 
         visee = pg.Vector2(dx, dy)
         visee = visee.normalize()
 
-        self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
+        self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y), button))
 
     def respawn(self):
         self.player.setPosition(self.spawn[0], self.spawn[1])
@@ -121,7 +122,7 @@ class Level:
             if event.type == pg.MOUSEBUTTONDOWN:
                 posX, posY = pg.mouse.get_pos()
                 offset_x, offset_y = self.camera.getOffset()
-                self.shoot(-offset_x + posX, -offset_y + posY)
+                self.shoot(-offset_x + posX, -offset_y + posY, event.button)
 
         for b in self.list_gravity_bloc:
             b.move(dt)

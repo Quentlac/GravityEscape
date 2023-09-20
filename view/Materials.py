@@ -1,6 +1,7 @@
 import pygame as pg
 import os
 
+from Bloc.GravityBlocStoppable import GravityBlocStoppable
 from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoHitBoxBloc import NoHitBoxBloc
@@ -39,6 +40,7 @@ class Materials:
         25: (pg.image.load(f"{directory}/block-red-flag.png"), EndBloc),
         26: (pg.image.load(f"{directory}/block-green-flag.png"), SpawnBloc),
         27: (pg.image.load(f"{directory}/block-green-flag.png"), SpawnBloc),
+        28: (pg.image.load(f"{directory}/block-gravity.png"), GravityBlocStoppable),
 
     }
 
