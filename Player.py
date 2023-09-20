@@ -23,10 +23,6 @@ class Player(GravityItem):
                 image = pygame.transform.scale(image, size)
                 array.append(image)
 
-    load_image(character_images_walk, sprite_directory, img_size)
-    load_image(character_images_jump, sprites_jump, img_size)
-    load_image(character_images_walk_back, sprites_walk_back, img_size)
-
 
 
     def __init__(self, pos):
@@ -146,3 +142,7 @@ class Player(GravityItem):
             if b.testCollisionWithOtherItem(self):
                 return True
         return False
+
+Player.load_image(Player.character_images_walk, Player.sprite_directory, Player.img_size)
+Player.load_image(Player.character_images_jump, Player.sprites_jump, Player.img_size)
+Player.load_image(Player.character_images_walk_back, Player.sprites_walk_back, Player.img_size)
