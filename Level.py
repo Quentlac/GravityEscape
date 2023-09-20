@@ -95,14 +95,14 @@ class Level:
                     if bloc:
                         self.level_elements.append(bloc)
 
-    def shoot(self, x, y):
+    def shoot(self, x, y, button):
         dx = x - self.player.getPosX()
         dy = y - self.player.getPosY()
 
         visee = pg.Vector2(dx, dy)
         visee = visee.normalize()
 
-        self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
+        self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y), button))
 
     def respawn(self):
         self.player.setPosition(self.spawn[0], self.spawn[1])
@@ -120,7 +120,7 @@ class Level:
             if event.type == pg.MOUSEBUTTONDOWN:
                 posX, posY = pg.mouse.get_pos()
                 offset_x, offset_y = self.camera.getOffset()
-                self.shoot(-offset_x + posX, -offset_y + posY)
+                self.shoot(-offset_x + posX, -offset_y + posY, event.button)
 
         for b in self.list_gravity_bloc:
             b.move(dt)
