@@ -7,6 +7,7 @@ from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
+from Item.GravityItem import GravityItem
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc

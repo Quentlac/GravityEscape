@@ -1,3 +1,5 @@
+import math
+
 from Item.GravityItem import GravityItem
 import pygame, os
 
@@ -67,13 +69,10 @@ class Player(GravityItem):
 
     def display(self, canva, camera):
         # Remove comment to see hitbox
-        pygame.draw.rect(canva, 'red', pygame.Rect(camera.getOffset()[0] + self._posX - self._width / 2,
-                                                   camera.getOffset()[1] + self._posY - self._height / 2, self._width,
-                                                   self._height), 1)
+        pygame.draw.rect(canva, 'red', pygame.Rect(camera.getOffset()[0] + self._posX - self._width / 2,camera.getOffset()[1] + self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
         offset_x, offset_y = camera.getOffset()
-        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,
-               offset_y + self._posY - self.idle_image.get_size()[1] / 2)
+        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 2)
         if self.current_animation == "idle":
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
@@ -142,10 +141,9 @@ class Player(GravityItem):
         if self.getPosY() > height + 100:
             return True
         for b in GravityItem.getItems():
-            if b.testCollisionWithOtherItem(self):
+            if (b != self and math.sqrt((self._posX - b._posX)**2 + (self._posY - b._posY)**2) < 15 ):
                 return True
         return False
-
 
 Player.load_image(Player.character_images_walk, Player.sprite_directory, Player.img_size)
 Player.load_image(Player.character_images_jump, Player.sprites_jump, Player.img_size)

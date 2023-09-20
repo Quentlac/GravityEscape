@@ -63,6 +63,6 @@ class GravityItem(Item2D):
         if (self._gravity > 0):
             super().display(canva, camera, 'orange')
         elif (self._gravity < 0):
-            super().display(canva, camera, 'cyan')
+            super().display(canva, camera, 'darkcyan')
         else:
             super().display(canva, camera, 'white')
