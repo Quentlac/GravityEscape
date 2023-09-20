@@ -23,6 +23,8 @@ pygame.display.set_caption("Gravity Escape")
 
 # Load l'image de background, descendre son opacité, et limite (ici 2) de répétition de l'image de fond pour éviter les lags
 background = pygame.image.load("view/background/background-menu-large.png").convert()
+logo = pygame.image.load("view/background/gravity-logo.png")
+
 background.set_alpha(220)
 limit = math.ceil(screen.get_width()/background.get_width()) + 1
 
@@ -63,7 +65,7 @@ def start_menu():
             scroll = 0
 
         # Dessine le titre du jeu
-        draw_text("Gravity Escape", font, black, screen, screen.get_width()//2-148,40)
+        screen.blit(logo, (screen.get_width()//2-115, 50))
 
         # Créé les boutons
         button_1 = pygame.Rect(screen.get_width()//2-100, 200, 200, 100)
