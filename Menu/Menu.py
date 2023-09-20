@@ -34,7 +34,7 @@ class Menu:
         # Dessine l'objet surface dans son rectangle sur la window passée en paramètre
         window.blit(textObj, textrect)
 
-    def update(self, events):
+    def update(self, events, game):
         i = 0
         while i < self.limit:
             self.screen.blit(self.background, (self.background.get_width() * i + self.scroll, 0))
@@ -46,11 +46,11 @@ class Menu:
             self.scroll = 0
 
         if self.current == Menu.SELECT:
-            self.render_select(events)
+            self.render_select(events, game)
         elif self.current == Menu.CREDIT:
             self.render_credit(events)
 
-    def render_select(self, events):
+    def render_select(self, events, game):
         # Dessine le titre du jeu
         self.draw_text("Gravity Escape", self.font, "black", self.screen, self.screen.get_width() // 2 - 148, 40)
 
@@ -78,7 +78,7 @@ class Menu:
                 mx, my = pygame.mouse.get_pos()
                 # Si on clique sur le bouton 1, lancement du jeu
                 if button_1.collidepoint((mx, my)):
-                    print("Game")
+                    game.set_game()
 
                 # SI on clique sur le bouton 2, crédits
                 if button_2.collidepoint((mx, my)):
