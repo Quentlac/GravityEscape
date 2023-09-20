@@ -43,7 +43,6 @@ class Player(GravityItem):
         self.gunImgRight = pygame.transform.scale(gunImg, (50, 20))
         self.gunImgLeft = pygame.transform.flip(self.gunImgRight, False, True)
 
-
         self.walkingsound = pygame.mixer.Sound(os.path.dirname(os.path.realpath(__file__)) + "/ressources/sound-moving.mp3")
         self.is_walkingsound = False
         self.jumpsound = pygame.mixer.Sound(os.path.dirname(os.path.realpath(__file__)) + "/ressources/sound-jump.mp3")
@@ -123,8 +122,8 @@ class Player(GravityItem):
 
     def jump(self, dt):
         if not self.is_jumpsound:
-            self.jumpsound.play(1)
             self.is_jumpsound = True
+            self.jumpsound.play()
         if not self._isJump:
             self._isJump = True
             self.addForce((0, -0.45))

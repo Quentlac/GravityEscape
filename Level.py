@@ -42,7 +42,7 @@ class Level:
             self.grid = self.json_data["grid"]
 
             self.background = None
-            if self.json_data["background"]:
+            if self.json_data.get("background", False):
                 try:
                     bg = pg.image.load(
                         f"{os.path.dirname(os.path.realpath(__file__))}/view/backgrounds/{self.json_data['background']}")
@@ -53,6 +53,9 @@ class Level:
                 except FileNotFoundError as e:
                     print("Background not found")
                     self.background = None
+
+            if self.json_data.get("music", False):
+                pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/ressources/" + self.json_data["music"])
 
         except json.JSONDecodeError:
             print("Error decoding level json file")
@@ -70,6 +73,12 @@ class Level:
         self.player = Player(self.spawn)
         self.camera = Camera(self.player, screen.get_size())
         self.player.setPosition(self.spawn[0], self.spawn[1])
+        self.init_music()
+
+    def init_music(self):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.set_volume(.08)
+        pygame.mixer.music.play(-1)
     def end_pause(self):
         self.is_pause = False
     def endcallback(self):
@@ -119,6 +128,7 @@ class Level:
         GravityItem.items = []
         self.load_grid()
         self.end_pause()
+        self.init_music()
 
     def setcheckpoint(self, pos):
         self.spawn = pos
