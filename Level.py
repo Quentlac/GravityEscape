@@ -56,12 +56,6 @@ class Level:
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
 
         self.load_grid()
-        # Add border to level
-        top = GravityItem(((self.grid_width / 2) - self.default_size[0] / 2, -200), (self.grid_width, 50))
-        right = GravityItem((self.grid_width, (self.grid_height/2) - 200), (50, self.grid_height + 50))
-        bottom = GravityItem(((self.grid_width / 2) - self.default_size[0] / 2, self.grid_height - 200), (self.grid_width, 50))
-        left = GravityItem((-50, (self.grid_height/2) - 200), (50, self.grid_height + 50))
-        self.level_elements.extend([top, bottom, left, right])
 
         self.player = Player((0, 0))
         self.camera = Camera(self.player, screen.get_size())
@@ -130,7 +124,7 @@ class Level:
         self.player.display(self.screen, self.camera)
         self.player.move(dt)
         self.camera.move(dt)
-        if self.player.is_dead():
+        if self.player.is_dead(self.grid_height):
             self.respawn()
 
         keys = pg.key.get_pressed()
