@@ -10,6 +10,7 @@ from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
 from Item.GravityItem import GravityItem
+from LoreDisplayer import LoreDisplayer
 from Menu.Pause import Pause
 from Player import Player
 from view.Materials import Materials
@@ -32,6 +33,7 @@ class Level:
         self.game_end = callback
         self.is_pause = False
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
+        self.is_in_text = True
         try:
             # Loading level file
             with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name, "r") as f:
@@ -41,7 +43,7 @@ class Level:
             self.grid = self.json_data["grid"]
 
             self.background = None
-            if self.json_data["background"]:
+            if self.json_data.get("background", False):
                 try:
                     bg = pg.image.load(
                         f"{os.path.dirname(os.path.realpath(__file__))}/view/backgrounds/{self.json_data['background']}")
@@ -52,6 +54,11 @@ class Level:
                 except FileNotFoundError as e:
                     print("Background not found")
                     self.background = None
+
+            if self.json_data.get("lore", False):
+                self.lore = LoreDisplayer(self.json_data["lore"], self.end_lore)
+            else:
+                self.is_in_text = False
 
         except json.JSONDecodeError:
             print("Error decoding level json file")
@@ -69,10 +76,15 @@ class Level:
         self.player = Player(self.spawn)
         self.camera = Camera(self.player, screen.get_size())
         self.player.setPosition(self.spawn[0], self.spawn[1])
+
+    def end_lore(self):
+        self.is_in_text = False
     def end_pause(self):
         self.is_pause = False
+
     def endcallback(self):
         self.game_end()
+
     def load_grid(self):
         self.bullets = []
         self.level_elements = []
@@ -91,7 +103,8 @@ class Level:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
                         elif material[1] == NoKillBloc:
                             bloc = NoKillBloc(pos, self.default_size, material[0])
-                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[1] == GravityBlocStoppable:
+                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[
+                            1] == GravityBlocStoppable:
                             bloc = material[1](pos)
                             self.list_gravity_bloc.append(bloc)
                         elif material[1] == EndBloc:
@@ -123,9 +136,13 @@ class Level:
         self.spawn = pos
 
     def update(self, dt, events):
+        if self.is_in_text:
+            self.lore.update(self.screen, dt, events)
+            return
+
         if self.background:
             offset_x, offset_y = self.camera.getParralaxOffset(0.5)
-            bgX = (offset_x%self.background.get_size()[0] - self.screen.get_size()[0])
+            bgX = (offset_x % self.background.get_size()[0] - self.screen.get_size()[0])
             bgY = offset_y + 50
             self.screen.blit(self.background, (bgX, bgY))
             self.screen.blit(self.background, (bgX + self.background.get_size()[0], bgY))
