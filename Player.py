@@ -43,6 +43,7 @@ class Player(GravityItem):
         self.idle_image = pygame.image.load(os.path.join("Sprites/walk", "walk1.png"))
         self.music = pygame.mixer.music
         self.walkingsound = False
+        self.jumpsound = False
 
 
     def update_animation(self):
@@ -73,6 +74,7 @@ class Player(GravityItem):
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
         if self.current_animation == "idle":
             self.walkingsound = False
+            self.jumpsound = False
             self.music.stop()
             canva.blit(self.idle_image, (self._posX, self._posY))
         elif self.current_animation in ["walk", "walk_back", "jump"]:
@@ -83,8 +85,11 @@ class Player(GravityItem):
         self.update_animation()
 
     def jump(self):
-        self.music.load("ressources/sound-jump.mp3")
-        self.music.play()
+        if not self.jumpsound:
+            self.music.load("ressources/sound-jump.mp3")
+            self.music.play(1)
+            print("Test")
+            self.jumpsound = True
         if not self._isJump:
             self._isJump = True
             self.current_animation = "jump"  # Commencez l'animation de saut
@@ -97,7 +102,6 @@ class Player(GravityItem):
         if not self.walkingsound:
             self.music.load("ressources/sound-moving.mp3")
             self.music.play(-1)
-            print("test")
             self.walkingsound = True
         nextX = self.getPosX() + 0.15 * dt
         nextY = self.getPosY()
@@ -117,6 +121,10 @@ class Player(GravityItem):
             self.setPosition(nextX - 0.15 * dt, nextY)
 
     def goLeft(self, dt):
+        if not self.walkingsound:
+            self.music.load("ressources/sound-moving.mp3")
+            self.music.play(-1)
+            self.walkingsound = True
         nextX = self.getPosX() - 0.15 * dt
         nextY = self.getPosY()
 
