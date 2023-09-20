@@ -42,7 +42,7 @@ class Level:
         self.camera_pos = pg.Vector2()
 
         # Needed for render block but useless here, attribute change make it invisible in calcul
-        self.camera = Camera(None)
+        self.camera = Camera(None, (0,0))
         self.camera.camera_width = 0
         self.camera.camera_height = 0
 
