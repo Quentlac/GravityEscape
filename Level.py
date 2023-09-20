@@ -1,6 +1,5 @@
 import json
 import os
-import sys
 
 import pygame.draw
 
@@ -10,7 +9,6 @@ from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
-from Item.GravityItem import GravityItem
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
@@ -25,13 +23,14 @@ class Level:
     list_gravity_bloc = []
     bullets = []
 
-    def __init__(self, name, screen):
+    def __init__(self, name, screen, callback):
         self.level_elements = []
         self.level_name = name
         self.screen = screen
+        self.game_end = callback
         try:
             # Loading level file
-            with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name + ".json", "r") as f:
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/Levels/" + name, "r") as f:
                 self.json_data = json.load(f)
 
             self.size = self.json_data["size"]
@@ -68,7 +67,7 @@ class Level:
         self.respawn()
 
     def endcallback(self):
-        sys.exit(0)
+        self.game_end()
     def load_grid(self):
         # Draw grid
         for x in range(self.size[0]):

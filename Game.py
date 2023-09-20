@@ -1,5 +1,6 @@
 import pygame
 
+from Level import Level
 from LoreDisplayer import LoreDisplayer
 from Menu.Menu import Menu
 from Menu.LevelSelector import LevelSelector
@@ -24,12 +25,14 @@ class Game:
         self.menu = Menu(self.screen)
         self.game = None
 
+    def callback(self):
+        self.current = Game.MENU
+        self.menu.current = Menu.LEVELS
     def change_dispay(self, page):
         self.current = page
 
-    def set_game(self):
-        #self.game = LoreDisplayer("ksdjsqidjsdlksd sq|\ndlksqjdsddjjsqfkls fsjf lksjlkjqlsqf")
-        #self.game = LevelSelector()
+    def set_game(self, name):
+        self.game = Level(name, self.screen, self.callback)
         self.current = Game.GAME
     def run(self):
 
@@ -46,7 +49,7 @@ class Game:
             if self.current == Game.MENU:
                 self.menu.update(events, self)
             if self.current == Game.GAME and self.game:
-                self.game.update(self.screen, self.dt, events)
+                self.game.update(self.dt, events)
 
             pygame.display.update()
 

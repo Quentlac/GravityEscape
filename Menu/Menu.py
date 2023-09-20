@@ -36,6 +36,8 @@ class Menu:
         # Dessine l'objet surface dans son rectangle sur la window passée en paramètre
         window.blit(textObj, textrect)
 
+    def home(self):
+        self.current = Menu.SELECT
     def update(self, events, game):
         i = 0
         while i < self.limit:
@@ -52,7 +54,7 @@ class Menu:
         elif self.current == Menu.CREDIT:
             self.render_credit(events)
         elif self.current == Menu.LEVELS:
-            self.levels_selector.update(self.screen, 0, events)
+            self.levels_selector.update(self.screen, 0, events, game.set_game, self.home)
 
     def render_select(self, events, game):
         # Dessine le titre du jeu
