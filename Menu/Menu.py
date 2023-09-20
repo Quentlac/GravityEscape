@@ -11,7 +11,6 @@ class Menu:
     def __init__(self, screen):
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
         self.font_return = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 20)
-        self.music = pygame.mixer.music.load("ressources/Iron_Maiden_-_Fear_Of_The_Dark.mp3")
         self.background = pygame.image.load("view/background/background-menu-large.png").convert()
         self.background.set_alpha(220)
         self.limit = math.ceil(screen.get_width() / self.background.get_width()) + 1
@@ -19,6 +18,12 @@ class Menu:
         self.current = Menu.SELECT
         self.screen = screen
         self.levels_selector = LevelSelector()
+        self.init_music()
+
+    def init_music(self):
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load("ressources/Iron_Maiden_-_Fear_Of_The_Dark.mp3")
+        pygame.mixer.music.play(-1)
 
     def draw_text(self, text, font, color, window, x, y):
         # Création de l'objet

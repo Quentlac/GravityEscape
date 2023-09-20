@@ -26,16 +26,17 @@ class Game:
         self.menu = Menu(self.screen)
         self.game = None
 
-    def callback(self):
+    def back_to_menu(self):
         self.current = Game.MENU
         self.game = None
         GravityItem.items = []
         self.menu.current = Menu.LEVELS
+        self.menu.init_music()
     def change_dispay(self, page):
         self.current = page
 
     def set_game(self, name):
-        self.game = Level(name, self.screen, self.callback)
+        self.game = Level(name, self.screen, self.back_to_menu)
         self.current = Game.GAME
     def run(self):
 
