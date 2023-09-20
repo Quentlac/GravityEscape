@@ -9,6 +9,7 @@ from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
 from Bloc.SpawnBloc import SpawnBloc
 from Item.BulletItem import BulletItem
+from Item.GravityItem import GravityItem
 from Menu.Pause import Pause
 from Player import Player
 from view.Materials import Materials
@@ -114,6 +115,7 @@ class Level:
 
     def respawn(self):
         self.player.setPosition(self.spawn[0], self.spawn[1])
+        GravityItem.items = []
         self.load_grid()
         self.end_pause()
 
