@@ -31,7 +31,7 @@ while inGame:
         if event.type == QUIT:
             inGame = False
 
-    window.fill((0, 0, 0))
+    window.fill((100, 255, 255))
     pygame.mouse.set_cursor(SYSTEM_CURSOR_CROSSHAIR)
 
     level.update(dt, events)
