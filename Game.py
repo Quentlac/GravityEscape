@@ -1,5 +1,6 @@
 import pygame
 
+from LoreDisplayer import LoreDisplayer
 from Menu.Menu import Menu
 
 
@@ -20,10 +21,14 @@ class Game:
         self.dt = 0
 
         self.menu = Menu(self.screen)
+        self.game = None
 
     def change_dispay(self, page):
         self.current = page
 
+    def set_game(self):
+        self.game = LoreDisplayer("ksdjsqidjsdlksd sq|\ndlksqjdsddjjsqfkls fsjf lksjlkjqlsqf")
+        self.current = Game.GAME
     def run(self):
 
         while Game.isRunning:
@@ -37,7 +42,9 @@ class Game:
             #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 
             if self.current == Game.MENU:
-                self.menu.update(events)
+                self.menu.update(events, self)
+            if self.current == Game.GAME and self.game:
+                self.game.update(self.screen, self.dt, events)
 
             pygame.display.update()
 
