@@ -2,6 +2,7 @@ import json
 import os
 import sys
 
+from Bloc.GravityBlocStoppable import GravityBlocStoppable
 from Bloc.EndBloc import EndBloc
 from Bloc.InvertGravityBloc import InvertGravityBloc
 from Bloc.NoKillBloc import NoKillBloc
@@ -81,7 +82,7 @@ class Level:
                             bloc = NoHitBoxBloc(pos, self.default_size, material[0])
                         elif material[1] == NoKillBloc:
                             bloc = NoKillBloc(pos, self.default_size, material[0])
-                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc:
+                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[1] == GravityBlocStoppable:
                             bloc = material[1](pos)
                             self.list_gravity_bloc.append(bloc)
                         elif material[1] == EndBloc:
