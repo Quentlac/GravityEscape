@@ -42,7 +42,6 @@ class Player(GravityItem):
         gunImg = pygame.image.load(os.path.join("view/", "gunpistol.png"))
         self.gunImgRight = pygame.transform.scale(gunImg, (50, 20))
         self.gunImgLeft = pygame.transform.flip(self.gunImgRight, False, True)
-        self.idle_image = pygame.image.load(os.path.join("Sprites/walk", "walk1.png"))
         self.music = pygame.mixer.music
         self.walkingsound = False
         self.jumpsound = False
@@ -115,7 +114,7 @@ class Player(GravityItem):
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
         self.update_animation()
 
-    def jump(self):
+    def jump(self, dt):
         if not self.jumpsound:
             self.music.load("ressources/sound-jump.mp3")
             self.music.play(1)
@@ -123,7 +122,9 @@ class Player(GravityItem):
             self.jumpsound = True
         if not self._isJump:
             self._isJump = True
+            self.addForce((0, -0.45))
             self.current_animation = "jump"  # Commencez l'animation de saut
+
             # Réinitialisez l'indice de l'image actuelle pour commencer par la première image de saut
             self.current_frame = 0
 
