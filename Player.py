@@ -5,7 +5,7 @@ import pygame
 class Player(GravityItem):
 
     def __init__(self, pos):
-        super().__init__(pos, (20, 20), 0.02)
+        super().__init__(pos, (20, 20), 0.001)
         self._isPlayer = True
         self._isJump = False
 
@@ -16,10 +16,10 @@ class Player(GravityItem):
                          pygame.Rect(offset_x + self._posX - self._width / 2, offset_y + self._posY - self._height / 2, self._width,
                                      self._height))
 
-    def jump(self):
+    def jump(self, dt):
         if (not self._isJump):
             self._isJump = True
-            self.addForce((0, -0.5))
+            self.addForce((0, -0.45))
 
     def goRight(self, dt):
         nextX = self.getPosX() + 0.15 * dt
