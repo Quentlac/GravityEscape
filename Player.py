@@ -27,8 +27,6 @@ class Player(GravityItem):
     load_image(character_images_jump, sprites_jump, img_size)
     load_image(character_images_walk_back, sprites_walk_back, img_size)
 
-
-
     def __init__(self, pos):
         super().__init__(pos, self.size, 0.02)
         self.current_frame = 0
@@ -38,7 +36,8 @@ class Player(GravityItem):
         self.animation_delay = 10  # Délai entre les changements d'image
         self.animation_timer = 0  # Compteur pour contrôler l'animation
         self.current_animation = "idle"  # Animation par défaut
-        self.idle_image = pygame.transform.scale(pygame.image.load(os.path.join("Sprites/walk", "walk1.png")), self.img_size)
+        self.idle_image = pygame.transform.scale(pygame.image.load(os.path.join("Sprites/walk", "walk1.png")),
+                                                 self.img_size)
         self.idle_image_back = pygame.transform.scale(pygame.image.load(os.path.join("Sprites/walk_back", "walk_back1"
                                                                                                           ".png")),
                                                       self.img_size)
@@ -72,10 +71,11 @@ class Player(GravityItem):
 
     def display(self, canva, camera):
         # Remove comment to see hitbox
-        #pygame.draw.rect(canva, 'red', pygame.Rect(self._posX - self._width / 2, self._posY - self._height / 2, self._width, self._height), 1)
+        pygame.draw.rect(canva, 'red', pygame.Rect(camera.getOffset()[0] + self._posX - self._width / 2,camera.getOffset()[1] + self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
         offset_x, offset_y = camera.getOffset()
-        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 2)
+        pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,
+               offset_y + self._posY - self.idle_image.get_size()[1] / 2)
         if self.current_animation == "idle":
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)

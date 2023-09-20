@@ -4,6 +4,7 @@ import os
 from Bloc.NoKillBloc import NoKillBloc
 from Camera import Camera
 from Item.BulletItem import BulletItem
+from Item.GravityItem import GravityItem
 from Player import Player
 from view.Materials import Materials
 from Bloc.StaticBloc import StaticBloc
@@ -55,6 +56,12 @@ class Level:
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
 
         self.load_grid()
+        # Add border to level
+        top = GravityItem(((self.grid_width / 2) - self.default_size[0] / 2, -200), (self.grid_width, 50))
+        right = GravityItem((self.grid_width, (self.grid_height/2) - 200), (50, self.grid_height + 50))
+        bottom = GravityItem(((self.grid_width / 2) - self.default_size[0] / 2, self.grid_height - 200), (self.grid_width, 50))
+        left = GravityItem((-50, (self.grid_height/2) - 200), (50, self.grid_height + 50))
+        self.level_elements.extend([top, bottom, left, right])
 
         self.player = Player((0, 0))
         self.camera = Camera(self.player)
@@ -93,7 +100,8 @@ class Level:
         self.bullets.append(BulletItem((self.player.getPosX(), self.player.getPosY()), (visee.x, visee.y)))
 
     def respawn(self):
-        self.player.setPosition(200,200)
+        self.player.setPosition(200, 200)
+
     def update(self, dt, events):
         if self.background:
             x = 0
@@ -125,7 +133,6 @@ class Level:
         if self.player.is_dead():
             self.respawn()
 
-
         keys = pg.key.get_pressed()
 
         if keys[pg.K_SPACE]:
@@ -134,6 +141,3 @@ class Level:
             self.player.goRight(dt)
         if keys[pg.K_q] or keys[pg.K_LEFT]:
             self.player.goLeft(dt)
-
-        pg.draw.rect(self.screen, (0, 0, 0), (self.x_center, self.y_center, self.grid_width, self.grid_height), 4)
-
