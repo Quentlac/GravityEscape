@@ -40,6 +40,9 @@ class Player(GravityItem):
                                                                                                           ".png")),
                                                       self.img_size)
         self.last_direction_forward = True
+        gunImg = pygame.image.load(os.path.join("view/", "gunpistol.png"))
+        self.gunImgRight = pygame.transform.scale(gunImg, (50, 20))
+        self.gunImgLeft = pygame.transform.flip(self.gunImgRight, False, True)
 
     def update_animation(self):
         # Choisissez l'animation appropriée en fonction de la situation
@@ -69,10 +72,26 @@ class Player(GravityItem):
 
     def display(self, canva, camera):
         # Remove comment to see hitbox
-        pygame.draw.rect(canva, 'red', pygame.Rect(camera.getOffset()[0] + self._posX - self._width / 2,camera.getOffset()[1] + self._posY - self._height / 2, self._width, self._height), 1)
+        #pygame.draw.rect(canva, 'red', pygame.Rect(camera.getOffset()[0] + self._posX - self._width / 2,camera.getOffset()[1] + self._posY - self._height / 2, self._width, self._height), 1)
         # Affiche l'image actuelle du personnage aux coordonnées (posX, posY)
         offset_x, offset_y = camera.getOffset()
         pos = (offset_x + self._posX - self.idle_image.get_size()[0] / 2,offset_y + self._posY - self.idle_image.get_size()[1] / 2)
+
+        shotgun = pygame.surface.Surface((60, 60), pygame.SRCALPHA)
+        shotgun.fill((0, 0, 0, 0))
+
+        #pygame.draw.rect(shotgun, 'darkblue', (25, 25, 20, 6))
+        if(-offset_x + pygame.mouse.get_pos()[0] > self.getPosX()):
+            shotgun.blit(self.gunImgRight, (10, 30))
+        else:
+            shotgun.blit(self.gunImgLeft, (10, 10))
+
+        angle = math.atan2((-offset_y + pygame.mouse.get_pos()[1] - self.getPosY()), (-offset_x + pygame.mouse.get_pos()[0] - self.getPosX()))
+
+        shotgun_r = rot_center(shotgun,  -angle/math.pi * 180)
+
+        canva.blit(shotgun_r, (offset_x + self._posX - 30, offset_y + self._posY - 35))
+
         if self.current_animation == "idle":
             if self.last_direction_forward:
                 canva.blit(self.idle_image, pos)
@@ -148,3 +167,12 @@ class Player(GravityItem):
 Player.load_image(Player.character_images_walk, Player.sprite_directory, Player.img_size)
 Player.load_image(Player.character_images_jump, Player.sprites_jump, Player.img_size)
 Player.load_image(Player.character_images_walk_back, Player.sprites_walk_back, Player.img_size)
+
+def rot_center(image, angle):
+    """rotate an image while keeping its center and size"""
+    orig_rect = image.get_rect()
+    rot_image = pygame.transform.rotate(image, angle)
+    rot_rect = orig_rect.copy()
+    rot_rect.center = rot_image.get_rect().center
+    rot_image = rot_image.subsurface(rot_rect).copy()
+    return rot_image
