@@ -2,6 +2,7 @@ import pygame
 
 from LoreDisplayer import LoreDisplayer
 from Menu.Menu import Menu
+from Menu.LevelSelector import LevelSelector
 
 
 class Game:
@@ -27,7 +28,8 @@ class Game:
         self.current = page
 
     def set_game(self):
-        self.game = LoreDisplayer("ksdjsqidjsdlksd sq|\ndlksqjdsddjjsqfkls fsjf lksjlkjqlsqf")
+        #self.game = LoreDisplayer("ksdjsqidjsdlksd sq|\ndlksqjdsddjjsqfkls fsjf lksjlkjqlsqf")
+        #self.game = LevelSelector()
         self.current = Game.GAME
     def run(self):
 

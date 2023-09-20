@@ -1,11 +1,12 @@
 import pygame
 import math
-
+from Menu.LevelSelector import LevelSelector
 
 # Made by Guillaume, adapted into class by Nathan
 class Menu:
     SELECT = 1
     CREDIT = 2
+    LEVELS = 3
 
     def __init__(self, screen):
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
@@ -17,6 +18,7 @@ class Menu:
         self.scroll = 0
         self.current = Menu.SELECT
         self.screen = screen
+        self.levels_selector = LevelSelector()
 
     def draw_text(self, text, font, color, window, x, y):
         # Création de l'objet
@@ -49,6 +51,8 @@ class Menu:
             self.render_select(events, game)
         elif self.current == Menu.CREDIT:
             self.render_credit(events)
+        elif self.current == Menu.LEVELS:
+            self.levels_selector.update(self.screen, 0, events)
 
     def render_select(self, events, game):
         # Dessine le titre du jeu
@@ -78,7 +82,7 @@ class Menu:
                 mx, my = pygame.mouse.get_pos()
                 # Si on clique sur le bouton 1, lancement du jeu
                 if button_1.collidepoint((mx, my)):
-                    game.set_game()
+                    self.current = Menu.LEVELS
 
                 # SI on clique sur le bouton 2, crédits
                 if button_2.collidepoint((mx, my)):
