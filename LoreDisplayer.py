@@ -37,7 +37,7 @@ class LoreDisplayer:
             y += word_height  # Start on new row.
 
         for event in events:
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+            if (event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN) or (event.type == pygame.MOUSEBUTTONDOWN):
                 if self.index < len(self.text):
                     self.index = len(self.text)
                 else:

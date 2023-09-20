@@ -62,8 +62,10 @@ class Level:
                 self.is_in_text = False
 
             if self.json_data.get("music", False):
+                self.is_music = True
                 pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/ressources/" + self.json_data["music"])
-
+            else:
+                self.is_music = False
         except json.JSONDecodeError:
             print("Error decoding level json file")
         except KeyError as e:
@@ -86,9 +88,10 @@ class Level:
         self.is_in_text = False
 
     def init_music(self):
-        pygame.mixer.music.stop()
-        pygame.mixer.music.set_volume(.08)
-        pygame.mixer.music.play(-1)
+        if self.is_music:
+            pygame.mixer.music.stop()
+            pygame.mixer.music.set_volume(.08)
+            pygame.mixer.music.play(-1)
     def end_pause(self):
         self.is_pause = False
 
