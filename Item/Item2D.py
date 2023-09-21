@@ -37,6 +37,13 @@ class Item2D:
         return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(
             self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 2)
 
+    def testHorizontalCollisionWithOtherItem(self, o: 'Item2D', dx=0, dy=0):
+        if (self == o):
+            return False
+
+        return abs(self._posX + dx - o.getPosX()) < ((self._width + o.getWidth()) / 2) and abs(
+            self._posY + dy - o.getPosY()) < ((self._height + o.getHeight()) / 4)
+
     def display(self, canva, camera, color):
         offset_x, offset_y = camera.getOffset()
         pygame.draw.rect(canva, '#222222', pygame.Rect(offset_x + self._posX - self._width/2, offset_y + self._posY - self._height / 2, self._width, self._height), border_radius=3)
