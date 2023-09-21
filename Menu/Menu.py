@@ -53,7 +53,6 @@ class Menu:
         # Permet de refaire boucler le scroll à 0 pour recommencer la boucle au dessus
         if abs(self.scroll) > self.background.get_width():
             self.scroll = 0
-
         if self.current == Menu.SELECT:
             self.render_select(events, game)
         elif self.current == Menu.CREDIT:
@@ -99,6 +98,7 @@ class Menu:
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                events.remove(event)
                 # Récupère les positions x et y de la souris
                 mx, my = pygame.mouse.get_pos()
                 # Si on clique sur le bouton 1, lancement du jeu
@@ -112,7 +112,7 @@ class Menu:
                 # Si on clique sur le bouton 3, on quitte le jeu
                 if button_3.collidepoint((mx, my)):
                     pygame.quit()
-                events.remove(event)
+
     def render_credit(self, events):
         button_return = pygame.Rect(30, 30, 100, 50)
         pygame.draw.rect(self.screen, (231, 185, 0), button_return, border_radius=8)
@@ -127,9 +127,10 @@ class Menu:
                 if event.key == pygame.K_ESCAPE:
                     self.current = Menu.SELECT
             if event.type == pygame.MOUSEBUTTONDOWN:
+                events.remove(event)
                 # Récupère les positions x et y de la souris
                 mx, my = pygame.mouse.get_pos()
                 # Si on clique sur le bouton 1, lancement du jeu
                 if button_return.collidepoint((mx, my)):
                     self.current = Menu.SELECT
-                events.remove(event)
+

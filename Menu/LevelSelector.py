@@ -26,6 +26,7 @@ class LevelSelector:
     def reload_completed(self):
         with open(os.path.dirname(os.path.realpath(__file__)) + "/../completed.json", "r") as f:
             self.completed = json.load(f)
+
     def draw_text(self, text, font, color, window, x, y):
         # Création de l'objet
         textObj = font.render(text, 1, color)
@@ -49,8 +50,9 @@ class LevelSelector:
         start_x = screen.get_size()[0] / 2 - (total_width / 2)
         click_event = None
         for event in events:
-            if event.type == pygame.MOUSEBUTTONUP:
+            if event.type == pygame.MOUSEBUTTONDOWN:
                 click_event = event
+                events.remove(event)
         i = 0
         for (entry, level) in levels_list:
             rect = pygame.Rect(start_x + i * card_width + space_witdh * i, height, card_width, 100)
@@ -71,8 +73,15 @@ class LevelSelector:
             if button_return.collidepoint(mx, my):
                 return_cb()
         return y
+
     def update(self, screen: pygame.Surface, dt, events, callback, return_cb):
-        self.draw_text("Campagne", self.font, "black", screen, screen.get_size()[0] / 2, 260)
-        self.render_line(screen, dt, events, callback, return_cb, self.levels_locked, 300)
-        self.draw_text("Créatif", self.font, "black", screen, screen.get_size()[0] / 2, 510)
-        self.render_line(screen, dt, events, callback, return_cb, self.levels_unlocked, 550)
+        self.draw_text("Campagne", self.font, "black", screen, screen.get_size()[0] / 2, 160)
+        l = len(self.levels_locked)
+        if l > 0:
+            i = self.render_line(screen, dt, events, callback, return_cb, self.levels_locked[0:min(l, 9)], 200)
+        if l > 9:
+            i = self.render_line(screen, dt, events, callback, return_cb, self.levels_locked[9:min(l, 17)], 310, i)
+        if l > 17:
+            self.render_line(screen, dt, events, callback, return_cb, self.levels_locked[18:min(l, 26)], 420, i)
+        self.draw_text("Créatif", self.font, "black", screen, screen.get_size()[0] / 2, 560)
+        self.render_line(screen, dt, events, callback, return_cb, self.levels_unlocked, 600)

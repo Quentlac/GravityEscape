@@ -39,6 +39,7 @@ class Pause:
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
+                events.remove(event)
                 # Récupère les positions x et y de la souris
                 mx, my = pygame.mouse.get_pos()
                 # Si on clique sur le bouton 1, lancement du jeu
