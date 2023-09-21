@@ -113,7 +113,7 @@ class Level:
             print("Missing key in level file: ", e)
     def end_lore(self):
         self.is_in_text = False
-        self.chrono_on = False
+        self.chrono_on = True
 
     def init_music(self):
         if self.is_music:
