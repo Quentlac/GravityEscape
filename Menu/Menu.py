@@ -78,9 +78,9 @@ class Menu:
         self.screen.blit(title_image, title_rect)
 
         # Créé les boutons
-        button_1 = pygame.Rect(self.screen.get_width() // 2 - 100, 200, 200, 100)
-        button_2 = pygame.Rect(self.screen.get_width() // 2 - 100, 350, 200, 100)
-        button_3 = pygame.Rect(self.screen.get_width() // 2 - 100, 500, 200, 100)
+        button_1 = pygame.Rect(self.screen.get_width() // 2 - 110, 200, 220, 100)
+        button_2 = pygame.Rect(self.screen.get_width() // 2 - 110, 350, 220, 100)
+        button_3 = pygame.Rect(self.screen.get_width() // 2 - 110, 500, 220, 100)
 
         # Dessine les bordures noires autour des rectangles jaunes
         border_width = 2  # Largeur de la bordure
@@ -89,11 +89,11 @@ class Menu:
         pygame.draw.rect(self.screen, (231, 185, 0), button_3, border_radius=8)
 
         # Génère le texte à l'intérieur de chaque bouton, les coordonées sont gérées manuellement
-        self.draw_text('Start', self.font, "black", self.screen, self.screen.get_width() // 2 - 55,
+        self.draw_text('DEMARRER', self.font, "black", self.screen, self.screen.get_width() // 2 - 90,
                        button_1.bottom - button_1.height // 2 - 16)
-        self.draw_text('Credits', self.font, "black", self.screen, self.screen.get_width() // 2 - 73,
+        self.draw_text('CREDITS', self.font, "black", self.screen, self.screen.get_width() // 2 - 73,
                        button_2.bottom - button_2.height // 2 - 16)
-        self.draw_text('Exit', self.font, "black", self.screen, self.screen.get_width() // 2 - 38,
+        self.draw_text('QUITTER', self.font, "black", self.screen, self.screen.get_width() // 2 - 75,
                        button_3.bottom - button_3.height // 2 - 16)
 
         for event in events:
@@ -116,14 +116,14 @@ class Menu:
     def render_credit(self, events):
         button_return = pygame.Rect(30, 30, 100, 50)
         pygame.draw.rect(self.screen, (231, 185, 0), button_return, border_radius=8)
-        self.draw_text('Return', self.font_return, "black", self.screen, button_return.width // 2 - 5, button_return.bottom - button_return.height // 2 - 7)
+        self.draw_text('Retour', self.font_return, "black", self.screen, button_return.width // 2 - 5, button_return.bottom - button_return.height // 2 - 7)
 
         # Titre crédit et crédits en dessous
         self.draw_text("CREDITS", self.font, "black", self.screen, self.screen.get_width() // 2 - 70, 40)
 
 
 
-        self.draw_text("Sprites & Décors :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 130)
+        self.draw_text("Sprites & Decors :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 130)
         self.draw_text("- Pack de blocs : @analogstudios_", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 180)
         self.draw_text("- Artwork Robot : Amon - OpenGameArt", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 210)
         self.draw_text("- DECOR : ClassicBackground - Freepik", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 240)

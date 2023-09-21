@@ -22,6 +22,7 @@ class LevelSelector:
         self.completed = []
         self.reload_completed()
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
+        self.font_return = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 20)
         self.small_font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 13)
 
 
@@ -69,9 +70,12 @@ class LevelSelector:
             y += 1
             i += 1
 
-        button_return = pygame.Rect(30, 30, 175, 50)
-        pygame.draw.rect(screen, (0, 142, 114), button_return)
-        self.draw_text('Return', self.font, "black", screen, button_return.centerx, button_return.centery + 7)
+        button_return = pygame.Rect(30, 30, 100, 50)
+        pygame.draw.rect(screen, (231, 185, 0), button_return, border_radius=8)
+        self.draw_text('RETOUR', self.font_return, "black", screen, button_return.width // 2 + 30, button_return.bottom - button_return.height // 2 + 3)
+
+
+
         if click_event:
             mx, my = pygame.mouse.get_pos()
             if button_return.collidepoint(mx, my):
