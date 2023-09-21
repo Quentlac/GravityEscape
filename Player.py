@@ -131,6 +131,9 @@ class Player(GravityItem):
             # Réinitialisez l'indice de l'image actuelle pour commencer par la première image de saut
             self.current_frame = 0
 
+    def endJump(self):
+        self.is_jumpsound = False
+        self._isJump = False
     def goRight(self, dt):
         if not self.is_walkingsound:
             self.walkingsound.play(-1)
