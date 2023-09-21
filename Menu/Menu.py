@@ -133,7 +133,7 @@ class Menu:
         self.draw_text("- Fear of The Dark, Iron Maiden (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 330)
         self.draw_text("- Come as You Are, Nirvana (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 360)
         self.draw_text("- Bad Guy, Billie Eilish (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 390)
-        self.draw_text("- Free Bird, Lynyrd Skynyrd (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 420)
+        self.draw_text("- The Epic 2, Rafael Kruz", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 420)
 
         self.draw_text("Equipe :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 470)
         self.draw_text("- Guillaume Perrin, chef de projet (Orga de l'équipe, lore du jeu & création des menus)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 520)
