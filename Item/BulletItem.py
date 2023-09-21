@@ -34,7 +34,7 @@ class BulletItem(Item2D):
             pygame.draw.circle(canva, color, (offset_x + self._posX, offset_y + self._posY), self.getWidth())
 
     def bounce(self, b : 'Item2D'):
-        if(self._nbBounce < 6):
+        if(self._nbBounce < 30):
             if (abs(self.getPosX() - b.getPosX()) > (self.getWidth() + b.getWidth()) / 2):
                 self._directionX = -self._directionX
             else:
@@ -53,6 +53,7 @@ class BulletItem(Item2D):
 
             for b in GravityItem.getItems():
                 if(not isinstance(b, NoKillBloc) and not b._isPlayer and self.active and self.testCollisionWithOtherItem(b, dx, dy)):
+                    col = True
                     if(isinstance(b, GravityBloc)):
                         b.invertGravity(self.button)
                         self.active = False

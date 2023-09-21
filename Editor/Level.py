@@ -99,5 +99,6 @@ class Level:
     def save(self):
         with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name,
                   "w") as f:
-            print("save")
+            print("saving...")
             f.write(json.dumps(self.json_data))
+        print("save done")
