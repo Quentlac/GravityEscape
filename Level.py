@@ -20,6 +20,7 @@ from Bloc.NoHitBoxBloc import NoHitBoxBloc
 from Bloc.GravityBloc import GravityBloc
 from Camera import *
 import pygame as pg
+from datetime import timedelta
 
 
 class Level:
@@ -33,8 +34,6 @@ class Level:
         self.level_elements = []
         self.level_name = name
         self.screen = screen
-        self.chrono = 0
-        self.resetChrono = True
         self.game_end = callback
         self.is_pause = False
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
@@ -48,6 +47,10 @@ class Level:
         self.size = None
         self.json_data = None
         self.text = None
+        self.chrono = 0
+        self.chrono_on = False
+        self.party_done = False
+        self.endbloc = []
         self.load_json()
 
         # Get center of the screen
@@ -94,6 +97,7 @@ class Level:
                 self.lore = LoreDisplayer(self.json_data["lore"], self.end_lore)
             else:
                 self.is_in_text = False
+                self.chrono_on = True
 
             if self.json_data.get("music", False):
                 self.is_music = True
@@ -109,6 +113,7 @@ class Level:
             print("Missing key in level file: ", e)
     def end_lore(self):
         self.is_in_text = False
+        self.chrono_on = False
 
     def init_music(self):
         if self.is_music:
@@ -119,13 +124,16 @@ class Level:
         self.is_pause = False
 
     def endcallback(self):
+        self.chrono_on = False
+        self.party_done = True
         with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "r") as f:
             completed = json.load(f)
         if not self.json_data["id"] in completed:
             with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "w") as f:
                 completed.append(self.json_data["id"])
                 f.write(json.dumps(completed))
-        self.game_end()
+
+
 
     def load_grid(self):
         self.bullets = []
@@ -151,6 +159,7 @@ class Level:
                                 self.list_gravity_bloc.append(bloc)
                             elif material[1] == EndBloc:
                                 bloc = material[1](pos, self.endcallback, material[0])
+                                self.endbloc.append(bloc)
                             elif material[1] == SpawnBloc:
                                 bloc = material[1](pos, material[0])
                                 self.spawn = pos
@@ -175,6 +184,9 @@ class Level:
         self.load_grid()
         self.end_pause()
         self.init_music()
+        self.chrono_on = True
+        self.party_done = False
+        self.chrono = 0
 
     def open_editor(self):
         if self.is_music:
@@ -192,10 +204,13 @@ class Level:
     def setcheckpoint(self, pos):
         self.spawn = pos
 
-    def draw_text(self, text, font, x, y, color = "#888888"):
+    def draw_text(self, text, font, x, y, color = "#888888", align = "center"):
         textObj = font.render(text, 1, color)
         textrect = textObj.get_rect()
-        textrect.center = (x, y)
+        if (align == "topleft"):
+            textrect.topleft = (x, y)
+        else:
+            textrect.center = (x, y)
         self.screen.blit(textObj, textrect)
 
     def update(self, dt, events):
@@ -224,6 +239,9 @@ class Level:
                     self.is_pause = not self.is_pause
                 if event.key == pg.K_j:
                     self.open_editor()
+                if event.key == pg.K_RETURN and self.party_done:
+                    self.game_end()
+
 
         if self.text is not None:
             for (x, y), text in self.text:
@@ -263,10 +281,17 @@ class Level:
 
         self.player.display(self.screen, self.camera)
 
-        self.draw_text("Temps: ", self.font, 50, 25, "black")
+        if self.chrono_on:
+            self.chrono += dt
+        self.draw_text("Temps: " + str(timedelta(milliseconds=self.chrono))[:-4], self.font, 10, 10, "black", "topleft")
 
+        if self.party_done:
+            for b in self.endbloc:
+                (cx, cy) = self.camera.getOffset()
+                self.draw_text("Temps : " + str(timedelta(milliseconds=self.chrono))[:-4], self.font, b.getPosX() + cx, b.getPosY() - 60 + cy)
+                self.draw_text("Appuyez sur ENTRER pour continuer", self.font, b.getPosX() + cx, b.getPosY() - 30 + cy)
 
-        if self.player.is_dead(self.grid_height):
+        if self.player.is_dead(self.grid_height) and not self.party_done:
             self.respawn()
 
         keys = pg.key.get_pressed()

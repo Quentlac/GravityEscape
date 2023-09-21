@@ -57,7 +57,7 @@ class Game:
             if self.current == Game.GAME and self.game:
                 self.game.update(self.dt, events)
 
-            pygame.display.update()
+            pygame.display.flip()
 
             self.dt = self.clock.tick(60)
         pygame.quit()
