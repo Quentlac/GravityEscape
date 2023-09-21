@@ -1,3 +1,5 @@
+import random
+
 from Bloc.NoKillBloc import NoKillBloc
 from Item.Item2D import *
 from Item.GravityItem import *
@@ -5,7 +7,8 @@ from Bloc.GravityBloc import *
 import pygame
 
 class BulletItem(Item2D):
-
+    sound = None
+    cat_sound = None
     def __init__(self, pos, visee, button):
         super().__init__(pos, (5, 5))
         self._directionX = visee[0]
@@ -14,6 +17,15 @@ class BulletItem(Item2D):
         self.active = True
         self._nbBounce = 0
         self.button = 1 if button == 1 else 0
+        rnd = random.Random();
+        n = rnd.random()
+        if not BulletItem.sound:
+            BulletItem.sound = pygame.mixer.Sound("ressources/sound-laser.mp3")
+            BulletItem.cat_sound = pygame.mixer.Sound("ressources/sound-cat.mp3")
+        if n < 0.98:
+            BulletItem.sound.play()
+        else:
+            BulletItem.cat_sound.play()
 
     def display(self, canva, camera):
         offset_x, offset_y = camera.getOffset()
