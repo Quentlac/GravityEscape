@@ -47,7 +47,7 @@ class Game:
                     Game.isRunning = False
                     break
 
-            self.screen.fill((0, 0, 0))
+            self.screen.fill("#BEE7FB")
             #pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_CROSSHAIR)
 
             if self.current == Game.MENU:
