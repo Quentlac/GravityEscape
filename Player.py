@@ -126,7 +126,7 @@ class Player(GravityItem):
             self.jumpsound.play()
         if not self._isJump:
             self._isJump = True
-            self.addForce((0, -0.45))
+            self.addForce((0, -0.43))
             self.current_animation = "jump"  # Commencez l'animation de saut
 
             # Réinitialisez l'indice de l'image actuelle pour commencer par la première image de saut
