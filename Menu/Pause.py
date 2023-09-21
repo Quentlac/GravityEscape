@@ -24,18 +24,18 @@ class Pause:
         self.draw_text("Pause", self.font, "black", screen, screen.get_width() // 2, 150)
 
         # Créé les boutons
-        button_1 = pygame.Rect(screen.get_size()[0] / 2 - 100, 220, 200, 100)
-        button_2 = pygame.Rect(screen.get_size()[0] / 2 - 100, 380, 200, 100)
-        button_3 = pygame.Rect(screen.get_size()[0] / 2 - 100, 520, 200, 100)
+        button_1 = pygame.Rect(screen.get_size()[0] / 2 - 100, 220, 230, 100)
+        button_2 = pygame.Rect(screen.get_size()[0] / 2 - 100, 360, 230, 100)
+        button_3 = pygame.Rect(screen.get_size()[0] / 2 - 100, 500, 230, 100)
 
         # Créé les rectangles associés à chaque bouton
-        pygame.draw.rect(screen, (0, 142, 114), button_1)
-        pygame.draw.rect(screen, (0, 142, 114), button_2)
-        pygame.draw.rect(screen, (0, 142, 114), button_3)
+        pygame.draw.rect(screen, (231, 185, 0), button_1, border_radius=8)
+        pygame.draw.rect(screen, (231, 185, 0), button_2, border_radius=8)
+        pygame.draw.rect(screen, (231, 185, 0), button_3, border_radius=8)
 
-        self.draw_text('Continue', self.font, "black", screen, button_1.centerx, button_1.centery)
+        self.draw_text('Reprendre', self.font, "black", screen, button_1.centerx, button_1.centery)
         self.draw_text('Reset', self.font, "black", screen, button_2.centerx, button_2.centery)
-        self.draw_text('Quit', self.font, "black", screen, button_3.centerx, button_3.centery)
+        self.draw_text('Quitter', self.font, "black", screen, button_3.centerx, button_3.centery)
 
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:

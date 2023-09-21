@@ -83,7 +83,8 @@ class Menu:
         button_2 = pygame.Rect(self.screen.get_width() // 2 - 100, 350, 200, 100)
         button_3 = pygame.Rect(self.screen.get_width() // 2 - 100, 500, 200, 100)
 
-        # Créé les rectangles associés à chaque bouton
+        # Dessine les bordures noires autour des rectangles jaunes
+        border_width = 2  # Largeur de la bordure
         pygame.draw.rect(self.screen, (231, 185, 0), button_1, border_radius=8)
         pygame.draw.rect(self.screen, (231, 185, 0), button_2, border_radius=8)
         pygame.draw.rect(self.screen, (231, 185, 0), button_3, border_radius=8)
