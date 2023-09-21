@@ -124,32 +124,34 @@ class Level:
         self.level_elements = []
         GravityBloc.items = []
         # Draw grid
-        for x in range(self.size[0]):
-            for y in range(self.size[1]):
-                if self.grid[x][y] != 0:
-                    material = Materials.get_material(self.grid[x][y])
-                    pos = (self.x_center + y * self.default_size[0], self.y_center + x * self.default_size[1])
-                    if type(material) != tuple:
-                        bloc = StaticBloc(pos, self.default_size, material)
-                    else:
-
-                        if material[1] == NoHitBoxBloc:
-                            bloc = NoHitBoxBloc(pos, self.default_size, material[0])
-                        elif material[1] == NoKillBloc:
-                            bloc = NoKillBloc(pos, self.default_size, material[0])
-                        elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[1] == GravityBlocStoppable:
-                            bloc = material[1](pos)
-                            self.list_gravity_bloc.append(bloc)
-                        elif material[1] == EndBloc:
-                            bloc = material[1](pos, self.endcallback, material[0])
-                        elif material[1] == SpawnBloc:
-                            bloc = material[1](pos, material[0])
-                            self.spawn = pos
+        try:
+            for x in range(self.size[0]):
+                for y in range(self.size[1]):
+                    if self.grid[x][y] != 0:
+                        material = Materials.get_material(self.grid[x][y])
+                        pos = (self.x_center + y * self.default_size[0], self.y_center + x * self.default_size[1])
+                        if type(material) != tuple:
+                            bloc = StaticBloc(pos, self.default_size, material)
                         else:
-                            bloc = None
-                    if bloc:
-                        self.level_elements.append(bloc)
 
+                            if material[1] == NoHitBoxBloc:
+                                bloc = NoHitBoxBloc(pos, self.default_size, material[0])
+                            elif material[1] == NoKillBloc:
+                                bloc = NoKillBloc(pos, self.default_size, material[0])
+                            elif material[1] == GravityBloc or material[1] == InvertGravityBloc or material[1] == GravityBlocStoppable:
+                                bloc = material[1](pos)
+                                self.list_gravity_bloc.append(bloc)
+                            elif material[1] == EndBloc:
+                                bloc = material[1](pos, self.endcallback, material[0])
+                            elif material[1] == SpawnBloc:
+                                bloc = material[1](pos, material[0])
+                                self.spawn = pos
+                            else:
+                                bloc = None
+                        if bloc:
+                            self.level_elements.append(bloc)
+        except IndexError:
+            self.open_editor()
     def shoot(self, x, y, button):
         dx = x - self.player.getPosX()
         dy = y - self.player.getPosY()
