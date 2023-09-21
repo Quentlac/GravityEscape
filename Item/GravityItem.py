@@ -30,6 +30,8 @@ class GravityItem(Item2D):
         dx = self._forceX * dt
         dy = self._forceY * dt
 
+        t = False
+
         # On calcule toute les collisions et on applique les forces nécessaires
         for i in GravityItem.getItems():
 
@@ -38,7 +40,13 @@ class GravityItem(Item2D):
                 if self._isPlayer:
                     if(self._forceY > 0):
                         self._isJump = False
-                    self.addForce((-self._forceX + i._forceX, -self._forceY + i._forceY))
+
+                    if(t == False):
+                        self.addForce((-self._forceX + i._forceX, -self._forceY + i._forceY))
+                        t = True
+                    else:
+                        self.addForce((i._forceX, i._forceY))
+
 
                 elif (not i._isPlayer):
                     self.addForce((-self._forceX + i._forceX * 0.5, -self._forceY + i._forceY * 0.5))

@@ -228,9 +228,12 @@ class Level:
             if not b.active:
                 self.bullets.remove(b)
 
-        self.player.display(self.screen, self.camera)
         self.player.move(dt)
         self.camera.move(dt)
+
+        self.player.display(self.screen, self.camera)
+
+
         if self.player.is_dead(self.grid_height):
             self.respawn()
 
