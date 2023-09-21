@@ -22,6 +22,8 @@ class LevelSelector:
         self.completed = []
         self.reload_completed()
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
+        self.small_font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 13)
+
 
     def reload_completed(self):
         with open(os.path.dirname(os.path.realpath(__file__)) + "/../completed.json", "r") as f:
@@ -57,6 +59,7 @@ class LevelSelector:
         for (entry, level) in levels_list:
             rect = pygame.Rect(start_x + i * card_width + space_witdh * i, height, card_width, 100)
             pygame.draw.rect(screen, "darkgreen" if level.get("id", -1) in self.completed else "black", rect, 5)
+            self.draw_text(level.get("name", ""), self.small_font, "black", screen, rect.centerx, rect.centery + 35)
             self.draw_text(str(y + 1), self.font, "black", screen, rect.centerx, rect.centery)
             if click_event:
                 mx, my = pygame.mouse.get_pos()
