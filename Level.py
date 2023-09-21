@@ -119,6 +119,12 @@ class Level:
         self.is_pause = False
 
     def endcallback(self):
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "r") as f:
+            completed = json.load(f)
+        if not self.json_data["id"] in completed:
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "w") as f:
+                completed.append(self.json_data["id"])
+                f.write(json.dumps(completed))
         self.game_end()
 
     def load_grid(self):
