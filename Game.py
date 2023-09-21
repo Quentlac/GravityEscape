@@ -31,6 +31,7 @@ class Game:
         self.game = None
         GravityItem.items = []
         self.menu.current = Menu.LEVELS
+        self.menu.levels_selector.reload_completed()
         self.menu.init_music()
     def change_dispay(self, page):
         self.current = page

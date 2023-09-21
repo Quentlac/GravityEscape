@@ -33,6 +33,8 @@ class Level:
         self.level_elements = []
         self.level_name = name
         self.screen = screen
+        self.chrono = 0
+        self.resetChrono = True
         self.game_end = callback
         self.is_pause = False
         self.pause = Pause(self.end_pause, self.respawn, self.game_end)
@@ -117,6 +119,12 @@ class Level:
         self.is_pause = False
 
     def endcallback(self):
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "r") as f:
+            completed = json.load(f)
+        if not self.json_data["id"] in completed:
+            with open(os.path.dirname(os.path.realpath(__file__)) + "/completed.json", "w") as f:
+                completed.append(self.json_data["id"])
+                f.write(json.dumps(completed))
         self.game_end()
 
     def load_grid(self):
@@ -184,8 +192,8 @@ class Level:
     def setcheckpoint(self, pos):
         self.spawn = pos
 
-    def draw_text(self, text, font, x, y):
-        textObj = font.render(text, 1, "white")
+    def draw_text(self, text, font, x, y, color = "#888888"):
+        textObj = font.render(text, 1, color)
         textrect = textObj.get_rect()
         textrect.center = (x, y)
         self.screen.blit(textObj, textrect)
@@ -217,6 +225,12 @@ class Level:
                 if event.key == pg.K_j:
                     self.open_editor()
 
+        if self.text is not None:
+            for (x, y), text in self.text:
+                (cx, cy) = self.camera.getOffset()
+                (px, py) = (self.x_center + x * self.default_size[0], self.y_center + y * self.default_size[1])
+                self.draw_text(text, self.font, px + cx, py + cy)
+
         for b in self.list_gravity_bloc:
             b.move(dt)
 
@@ -236,11 +250,6 @@ class Level:
                 pygame.draw.rect(s, (0, 0, 0, 50), (1, 1, b.getWidth() - 2, b.getHeight() - 2), border_radius=3)
                 self.screen.blit(s, (x - b.getWidth() / 2, y - b.getHeight() / 2))
 
-        if self.text is not None:
-            for (x, y), text in self.text:
-                (cx, cy) = self.camera.getOffset()
-                (px, py) = (self.x_center + x * self.default_size[0], self.y_center + y * self.default_size[1])
-                self.draw_text(text, self.font, px + cx, py + cy)
 
         for b in self.bullets:
             b.display(self.screen, self.camera)
@@ -254,13 +263,15 @@ class Level:
 
         self.player.display(self.screen, self.camera)
 
+        self.draw_text("Temps: ", self.font, 50, 25, "black")
+
 
         if self.player.is_dead(self.grid_height):
             self.respawn()
 
         keys = pg.key.get_pressed()
 
-        if keys[pg.K_SPACE] or keys[pg.K_UP]:
+        if keys[pg.K_SPACE] or keys[pg.K_UP] or keys[pg.K_z]:
             self.player.jump(dt)
         if keys[pg.K_d] or keys[pg.K_RIGHT]:
             self.player.goRight(dt)
