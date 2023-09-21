@@ -57,7 +57,7 @@ class BulletItem(Item2D):
                         b.invertGravity(self.button)
                         self.active = False
 
-                    else:
+                    elif not col:
                         self.bounce(b)
 
                     col = True
