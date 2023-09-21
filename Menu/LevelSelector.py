@@ -52,8 +52,8 @@ class LevelSelector:
         for event in events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 click_event = event
-                events.remove(event)
         i = 0
+
         for (entry, level) in levels_list:
             rect = pygame.Rect(start_x + i * card_width + space_witdh * i, height, card_width, 100)
             pygame.draw.rect(screen, "darkgreen" if level.get("id", -1) in self.completed else "black", rect, 5)
@@ -62,6 +62,7 @@ class LevelSelector:
                 mx, my = pygame.mouse.get_pos()
                 if rect.collidepoint(mx, my):
                     callback(entry)
+
             y += 1
             i += 1
 
@@ -85,3 +86,6 @@ class LevelSelector:
             self.render_line(screen, dt, events, callback, return_cb, self.levels_locked[18:min(l, 26)], 420, i)
         self.draw_text("Créatif", self.font, "black", screen, screen.get_size()[0] / 2, 560)
         self.render_line(screen, dt, events, callback, return_cb, self.levels_unlocked, 600)
+        for event in events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                events.remove(event)

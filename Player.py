@@ -114,7 +114,6 @@ class Player(GravityItem):
                 character_images = getattr(self, f"character_images_{self.current_animation}")
                 canva.blit(character_images[self.current_frame], pos)
             except IndexError as e:
-                print("Frame error: ", e)
                 canva.blit(self.idle_image, pos)
 
         # Mettez à jour l'image actuelle (par exemple, pour l'animation)
