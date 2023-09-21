@@ -27,6 +27,7 @@ class Level:
     list_gravity_bloc = []
     bullets = []
 
+
     def __init__(self, name, screen, callback):
         self.name = name
         self.level_elements = []
@@ -44,6 +45,7 @@ class Level:
         self.grid = None
         self.size = None
         self.json_data = None
+        self.text = None
         self.load_json()
 
         # Get center of the screen
@@ -61,6 +63,8 @@ class Level:
 
         self.is_in_editor = False
         self.editor = None
+
+        self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 15)
 
     def load_json(self):
         try:
@@ -94,6 +98,9 @@ class Level:
                 pygame.mixer.music.load(os.path.dirname(os.path.realpath(__file__)) + "/ressources/" + self.json_data["music"])
             else:
                 self.is_music = False
+
+            if self.json_data.get("text", False):
+                self.text = self.json_data["text"]
         except json.JSONDecodeError:
             print("Error decoding level json file")
         except KeyError as e:
@@ -175,6 +182,12 @@ class Level:
     def setcheckpoint(self, pos):
         self.spawn = pos
 
+    def draw_text(self, text, font, x, y):
+        textObj = font.render(text, 1, "white")
+        textrect = textObj.get_rect()
+        textrect.center = (x, y)
+        self.screen.blit(textObj, textrect)
+
     def update(self, dt, events):
         if self.is_in_text:
             self.lore.update(self.screen, dt, events)
@@ -220,6 +233,12 @@ class Level:
                 s.fill((0, 0, 0, 0))
                 pygame.draw.rect(s, (0, 0, 0, 50), (1, 1, b.getWidth() - 2, b.getHeight() - 2), border_radius=3)
                 self.screen.blit(s, (x - b.getWidth() / 2, y - b.getHeight() / 2))
+
+        if self.text is not None:
+            for (x, y), text in self.text:
+                (cx, cy) = self.camera.getOffset()
+                (px, py) = (self.x_center + x * self.default_size[0], self.y_center + y * self.default_size[1])
+                self.draw_text(text, self.font, px + cx, py + cy)
 
         for b in self.bullets:
             b.display(self.screen, self.camera)
