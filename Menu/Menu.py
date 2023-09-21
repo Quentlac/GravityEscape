@@ -62,8 +62,21 @@ class Menu:
             self.levels_selector.update(self.screen, 0, events, game.set_game, self.home)
 
     def render_select(self, events, game):
-        # Dessine le titre du jeu
-        self.draw_text("Gravity Escape", self.font, "black", self.screen, self.screen.get_width() // 2 - 148, 40)
+        # Charge le logo du jeu
+        title_image = pygame.image.load("view/gravity-logo.png")
+        title_rect = title_image.get_rect()
+
+        # Redimensionne le logo de 70%
+        new_width = int(title_rect.width * 0.6)
+        new_height = int(title_rect.height * 0.6)
+        title_image = pygame.transform.scale(title_image, (new_width, new_height))
+        title_rect = title_image.get_rect()
+
+        # On positionne le logo au bon endroit
+        title_rect.center = (self.screen.get_width() // 2, 100)
+
+        # On affiche le logo sur l'écran
+        self.screen.blit(title_image, title_rect)
 
         # Créé les boutons
         button_1 = pygame.Rect(self.screen.get_width() // 2 - 100, 200, 200, 100)
@@ -71,9 +84,9 @@ class Menu:
         button_3 = pygame.Rect(self.screen.get_width() // 2 - 100, 500, 200, 100)
 
         # Créé les rectangles associés à chaque bouton
-        pygame.draw.rect(self.screen, (0, 142, 114), button_1)
-        pygame.draw.rect(self.screen, (0, 142, 114), button_2)
-        pygame.draw.rect(self.screen, (0, 142, 114), button_3)
+        pygame.draw.rect(self.screen, (231, 185, 0), button_1, border_radius=8)
+        pygame.draw.rect(self.screen, (231, 185, 0), button_2, border_radius=8)
+        pygame.draw.rect(self.screen, (231, 185, 0), button_3, border_radius=8)
 
         # Génère le texte à l'intérieur de chaque bouton, les coordonées sont gérées manuellement
         self.draw_text('Start', self.font, "black", self.screen, self.screen.get_width() // 2 - 55,
@@ -101,9 +114,8 @@ class Menu:
                 events.remove(event)
     def render_credit(self, events):
         button_return = pygame.Rect(30, 30, 100, 50)
-        pygame.draw.rect(self.screen, (0, 142, 114), button_return)
-        self.draw_text('Return', self.font_return, "black", self.screen, button_return.width // 2 - 5,
-                       button_return.bottom - button_return.height // 2 - 7)
+        pygame.draw.rect(self.screen, (231, 185, 0), button_return, border_radius=8)
+        self.draw_text('Return', self.font_return, "black", self.screen, button_return.width // 2 - 5, button_return.bottom - button_return.height // 2 - 7)
 
         # Titre crédit et crédits en dessous
         self.draw_text("CREDITS", self.font, "black", self.screen, self.screen.get_width() // 2 - 71, 40)
