@@ -34,7 +34,7 @@ class BulletItem(Item2D):
             pygame.draw.circle(canva, color, (offset_x + self._posX, offset_y + self._posY), self.getWidth())
 
     def bounce(self, b : 'Item2D'):
-        if(self._nbBounce < 30):
+        if(self._nbBounce < 10):
             if (abs(self.getPosX() - b.getPosX()) > (self.getWidth() + b.getWidth()) / 2):
                 self._directionX = -self._directionX
             else:

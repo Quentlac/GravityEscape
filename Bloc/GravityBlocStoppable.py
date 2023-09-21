@@ -21,9 +21,12 @@ class GravityBlocStoppable(GravityBloc):
                 super().invertGravity(button)
             else:
                 self.is_stop = True
-                self.setForce((0, 0))
                 self._gravity = 0
 
     def move(self, dt):
-        if not self.is_stop:
-            super().move(dt)
+        if self.is_stop:
+            self.addForce((0, -self._forceY * 0.2))
+
+        super().move(dt)
+        
+
