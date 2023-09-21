@@ -1,6 +1,8 @@
 import os
 import json
 import pygame as pg
+import pygame.mouse
+
 from Bloc.StaticBloc import StaticBloc
 from Camera import Camera
 from view.Materials import Materials
@@ -13,14 +15,13 @@ class Level:
         self.editor = editor
         # Loading level file
         self.screen = screen
-        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json",
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name,
                   "r") as f:
             self.json_data = json.load(f)
 
         self.size = self.json_data["size"]
         # Grid setup
         self.grid = self.json_data["grid"]
-        print(self.grid)
         # If grid stored is lower than requested size, create bigger grid.
         # If the grid is bigger, do nothing
         if len(self.grid) < self.size[0]:
@@ -52,7 +53,9 @@ class Level:
 
         for event in events:
             if event.type == pg.MOUSEBUTTONUP:
-                click_event = event
+                x, y = pygame.mouse.get_pos()
+                if y > 40:
+                    click_event = event
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_k:
                     self.save()
@@ -94,7 +97,7 @@ class Level:
         pg.draw.rect(self.screen, (200, 200, 200), rect, 1)
 
     def save(self):
-        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name + ".json",
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/../Levels/" + self.editor.level_name,
                   "w") as f:
             print("save")
             f.write(json.dumps(self.json_data))
