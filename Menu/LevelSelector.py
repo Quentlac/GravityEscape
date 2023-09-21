@@ -16,7 +16,7 @@ class LevelSelector:
                         json_data = json.load(f)
                         json_data['grid'] = None
                         self.levels.append((entry, json_data))
-
+        self.levels = sorted(self.levels, key=lambda d: d[1]['id'])
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
 
     def draw_text(self, text, font, color, window, x, y):
