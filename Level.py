@@ -227,7 +227,7 @@ class Level:
             return
 
         if self.background:
-            offset_x, offset_y = self.camera.getParralaxOffset(0.5)
+            offset_x, offset_y = self.camera.getParralaxOffset(0.5, 0.1)
             bgX = (offset_x % self.background.get_size()[0] - self.screen.get_size()[0])
             bgY = offset_y + 50
             self.screen.blit(self.background, (bgX, bgY))
