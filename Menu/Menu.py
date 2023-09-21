@@ -119,8 +119,29 @@ class Menu:
         self.draw_text('Return', self.font_return, "black", self.screen, button_return.width // 2 - 5, button_return.bottom - button_return.height // 2 - 7)
 
         # Titre crédit et crédits en dessous
-        self.draw_text("CREDITS", self.font, "black", self.screen, self.screen.get_width() // 2 - 71, 40)
-        self.draw_text("-X (pour le truc)", self.font, "black", self.screen, self.screen.get_width() // 2 - 161, 150)
+        self.draw_text("CREDITS", self.font, "black", self.screen, self.screen.get_width() // 2 - 70, 40)
+
+
+
+        self.draw_text("Sprites & Décors :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 130)
+        self.draw_text("- Pack de blocs : @analogstudios_", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 180)
+        self.draw_text("- Artwork Robot : Amon - OpenGameArt", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 210)
+        self.draw_text("- DECOR : ClassicBackground - Freepik", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 240)
+
+
+        self.draw_text("Musiques :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 280)
+        self.draw_text("- Fear of The Dark, Iron Maiden (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 330)
+        self.draw_text("- Come as You Are, Nirvana (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 360)
+        self.draw_text("- Bad Guy, Billie Eilish (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 390)
+        self.draw_text("- Free Bird, Lynyrd Skynyrd (but SM64)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 420)
+
+        self.draw_text("Equipe :", self.font, "black", self.screen, self.screen.get_width() // 2 - 475, 470)
+        self.draw_text("- Guillaume Perrin, chef de projet (Orga de l'équipe, lore du jeu & création des menus)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 520)
+        self.draw_text("- Timeo Cogne, graphisme & animations (Animation des Sprites/Textures/Musiques)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 550)
+        self.draw_text("- Quentin Lacombe, développeur (Physique du jeu)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 580)
+        self.draw_text("- Nathan Guillermo, développeur (Structure du jeu et des niveaux)", self.font_return, "black", self.screen, self.screen.get_width() // 2 - 375, 610)
+
+
 
         for event in events:
             if event.type == pygame.KEYDOWN:
