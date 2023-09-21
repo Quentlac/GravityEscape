@@ -5,7 +5,7 @@ class LoreDisplayer:
 
     def __init__(self, text, done_cb):
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 20)
-        self.text = text + "\nPress enter to start level"
+        self.text = text + "\n \n \nAppuyez sur votre souris ou ENTRER pour commencer"
         self.index = 0
         self.dt_acc = 0
         self.done_cb = done_cb
@@ -21,7 +21,7 @@ class LoreDisplayer:
         words = text.split("\n")
         space = self.font.size(' ')[0]
         max_width, max_height = screen.get_size()
-        pos = (screen.get_size()[0] / 4, screen.get_size()[1] / 2 - 30)
+        pos = (screen.get_size()[0] / 8, screen.get_size()[1] / 4 - 30)
         x, y = pos
         for line in words:
             word_height = 0
