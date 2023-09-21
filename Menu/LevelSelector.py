@@ -19,8 +19,13 @@ class LevelSelector:
         self.levels = sorted(self.levels, key=lambda d: d[1]['id'])
         self.levels_locked = [level for level in self.levels if level[1].get("locked", True)]
         self.levels_unlocked = [level for level in self.levels if not level[1].get("locked", True)]
+        self.completed = []
+        self.reload_completed()
         self.font = pygame.font.Font("view/font/LuckiestGuy-Regular.ttf", 40)
 
+    def reload_completed(self):
+        with open(os.path.dirname(os.path.realpath(__file__)) + "/../completed.json", "r") as f:
+            self.completed = json.load(f)
     def draw_text(self, text, font, color, window, x, y):
         # Création de l'objet
         textObj = font.render(text, 1, color)
@@ -49,7 +54,7 @@ class LevelSelector:
         i = 0
         for (entry, level) in levels_list:
             rect = pygame.Rect(start_x + i * card_width + space_witdh * i, height, card_width, 100)
-            pygame.draw.rect(screen, "black", rect, 5)
+            pygame.draw.rect(screen, "darkgreen" if level.get("id", -1) in self.completed else "black", rect, 5)
             self.draw_text(str(y + 1), self.font, "black", screen, rect.centerx, rect.centery)
             if click_event:
                 mx, my = pygame.mouse.get_pos()
