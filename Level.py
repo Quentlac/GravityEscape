@@ -59,12 +59,16 @@ class Level:
         self.x_center = (screen.get_size()[0] - self.grid_width) // 2
         self.y_center = (screen.get_size()[1] - self.grid_height) // 2
         self.spawn = (0, 0)
-        self.load_grid()
 
         self.player = Player(self.spawn)
         self.camera = Camera(self.player, screen.get_size())
-        self.player.setPosition(self.spawn[0], self.spawn[1])
         self.init_music()
+
+        self.load_grid()
+
+        self.player.setPosition(self.spawn[0], self.spawn[1])
+
+
 
         self.is_in_editor = False
         self.editor = None
@@ -158,7 +162,7 @@ class Level:
                                 bloc = material[1](pos)
                                 self.list_gravity_bloc.append(bloc)
                             elif material[1] == EndBloc:
-                                bloc = material[1](pos, self.endcallback, material[0])
+                                bloc = material[1](pos, self.player, self.endcallback, material[0])
                                 self.endbloc.append(bloc)
                             elif material[1] == SpawnBloc:
                                 bloc = material[1](pos, material[0])
