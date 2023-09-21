@@ -43,7 +43,7 @@ class LevelSelector:
         window.blit(textObj, textrect)
 
     def render_line(self, screen: pygame.Surface, dt, events, callback, return_cb, levels_list, height, y=0):
-        space_witdh = 50
+        space_witdh = 10
         card_width = 100
         total_width = card_width * len(levels_list) + space_witdh * (len(levels_list) - 1)
         start_x = screen.get_size()[0] / 2 - (total_width / 2)
