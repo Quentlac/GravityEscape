@@ -185,7 +185,7 @@ class Level:
         self.spawn = pos
 
     def draw_text(self, text, font, x, y):
-        textObj = font.render(text, 1, "white")
+        textObj = font.render(text, 1, "darkblue")
         textrect = textObj.get_rect()
         textrect.center = (x, y)
         self.screen.blit(textObj, textrect)

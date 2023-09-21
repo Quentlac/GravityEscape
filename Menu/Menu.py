@@ -98,7 +98,7 @@ class Menu:
                 # Si on clique sur le bouton 3, on quitte le jeu
                 if button_3.collidepoint((mx, my)):
                     pygame.quit()
-
+                events.remove(event)
     def render_credit(self, events):
         button_return = pygame.Rect(30, 30, 100, 50)
         pygame.draw.rect(self.screen, (0, 142, 114), button_return)
@@ -119,3 +119,4 @@ class Menu:
                 # Si on clique sur le bouton 1, lancement du jeu
                 if button_return.collidepoint((mx, my)):
                     self.current = Menu.SELECT
+                events.remove(event)
