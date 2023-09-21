@@ -1,16 +1,16 @@
 {"id": 0, "text": [
-	[[5, 5], "Déplacez vous avec ZQSD"],
+	[[5, 5], "Deplacez vous avec ZQSD"],
     [[5, 5.3], "Vous pouvez aussi sauter avec espace"],
 
-    [[15, 5.6], "Grâce à la souris,"],
+    [[15, 5.6], "Grace a la souris,"],
     [[15, 6], "Tirez sur les blocs orange ou bleu"],
-    [[15, 6.3], "pour inverser leur gravité"],
+    [[15, 6.3], "pour inverser leur gravite"],
 
     [[20, 2], "Faites rebondir les balles contre les murs"],
     [[20, 2.3], "pour tenter de vous frayer un chemin"],
 
     [[32, 4], "En utilisant ce que vous avez appris,"],
-    [[32, 4.3], "essayez de créer un escalier !"]
+    [[32, 4.3], "essayez de creer un escalier !"]
 
   ],
     "lore": "Annee 2183,\nla genetique vient de depasser\nun obstacle epistemologique.\n \nLa conscience humaine,\njusqu alors incomprise par les scientifiques,\nvient enfin d etre comprise.\n \nAvec cette avancee, l homme peut enfin realiser\nune chose qui semblait impossible,\nnumeriser une conscience humaine\nen recuperant la totalite des signaux electroniques\ndu cerveau.\n \nCes consciences numerisees, comprenant souvenirs,\nmaniere de penser et emotions,\npeuvent ensuite etre injectees dans une machine. ",
